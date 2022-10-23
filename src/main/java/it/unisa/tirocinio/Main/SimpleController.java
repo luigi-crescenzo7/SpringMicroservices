@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping(produces = {"application/json"})
 @Slf4j
 public class SimpleController {
+    private final SimpleService service;
 
-    @Autowired
-    private SimpleService service;
+    public SimpleController(final SimpleService service) {
+        this.service = service;
+    }
 
     @GetMapping({"/", "/index", "/index.html"})
     public String index(Model model) {
