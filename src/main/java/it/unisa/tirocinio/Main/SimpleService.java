@@ -12,7 +12,7 @@ import java.util.Optional;
 @Slf4j
 public class SimpleService {
 
-    private final static String URL = "http://localhost:8181";
+    private final static String URL = "http://10.110.225.6:80";
     private final static String ENDPOINT = "/events";
 
     public String getJSON() {
