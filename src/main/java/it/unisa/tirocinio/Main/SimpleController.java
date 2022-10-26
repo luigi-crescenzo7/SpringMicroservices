@@ -2,7 +2,6 @@ package it.unisa.tirocinio.Main;
 
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,10 +15,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Slf4j
 public class SimpleController {
     private final SimpleService service;
+    private final PersonService personService;
 
-    public SimpleController(final SimpleService service) {
+    public SimpleController(final SimpleService service, final PersonService personService) {
         this.service = service;
+        this.personService = personService;
     }
+
 
     @GetMapping({"/", "/index", "/index.html"})
     public String index(Model model) {
@@ -41,5 +43,12 @@ public class SimpleController {
         /*String tmp = service.getJSON();
         model.addAttribute("json_data", tmp);*/
         return service.getJSON();
+    }
+
+    @GetMapping(value = "/peoples")
+    @ResponseBody
+    public String persons() {
+        log.info("Call to /peoples endpoint");
+        return personService.getPersons();
     }
 }

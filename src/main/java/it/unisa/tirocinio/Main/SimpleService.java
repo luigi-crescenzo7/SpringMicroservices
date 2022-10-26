@@ -17,7 +17,7 @@ public class SimpleService {
 
     public String getJSON() {
 
-        log.info("Feching microservice endpoint...");
+        log.info("Fetching microservice endpoint...");
         final WebClient client = WebClient.builder().baseUrl(URL).build();
         Optional<String> opt = client.get()
                 .uri(ENDPOINT)
