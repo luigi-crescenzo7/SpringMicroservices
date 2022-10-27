@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-service
+  namespace: default
+  labels:
+    app: tirocinio
+spec:
+  selector:
+    app: tirocinio
+  type: NodePort
+  ports:
+    - nodePort: 30164
+      port: 8080
+      targetPort: 8080
+

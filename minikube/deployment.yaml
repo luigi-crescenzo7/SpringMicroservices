@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tirocinio-web-app
+  namespace: default
+  labels:
+    app: tirocinio
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tirocinio
+  template:
+    metadata:
+      labels:
+        app: tirocinio
+    spec:
+      containers:
+        - name: tirocinio-container
+          image: tirocinio-web-app-image
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+
+
