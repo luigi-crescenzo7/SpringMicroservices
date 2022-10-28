@@ -2,7 +2,9 @@ package it.unisa.tirocinio.Main;
 
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.MediaType;
+import org.springframework.http.HttpStatus;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,13 +24,11 @@ public class SimpleController {
         this.personService = personService;
     }
 
-
     @GetMapping({"/", "/index", "/index.html"})
     public String index(Model model) {
         model.addAttribute("attributo", "Hello");
         return "index";
     }
-
 
     @GetMapping("/login")
     public String login(Model model) {
@@ -36,19 +36,19 @@ public class SimpleController {
     }
 
 
-    @GetMapping(value = "/json", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/json")
     @ResponseBody
-    public String json() {
+    public ResponseEntity<String> json() {
         log.info("Call to /json endpoint");
         /*String tmp = service.getJSON();
         model.addAttribute("json_data", tmp);*/
-        return service.getJSON();
+        return new ResponseEntity<>(service.getJSON(), HttpStatus.OK);
     }
 
     @GetMapping(value = "/peoples")
     @ResponseBody
-    public String persons() {
+    public ResponseEntity<String> persons() {
         log.info("Call to /peoples endpoint");
-        return personService.getPersons();
+        return new ResponseEntity<>(personService.getPersons(), HttpStatus.OK);
     }
 }
