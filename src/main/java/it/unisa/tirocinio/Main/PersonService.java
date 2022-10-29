@@ -16,6 +16,7 @@ public class PersonService {
 
 
     public String getPersons() {
+        log.info("Querying microservice endpoint...");
         final WebClient client = WebClient.builder().baseUrl(URL).build();
 
         Optional<String> opt = client.get()
