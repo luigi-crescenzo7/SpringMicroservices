@@ -1,4 +1,4 @@
-package it.unisa.tirocinio.Main;
+package it.unisa.tirocinio.services;
 
 
 import lombok.extern.slf4j.Slf4j;
@@ -9,12 +9,12 @@ import java.util.Optional;
 
 @Service
 @Slf4j
-public class PersonService {
+public class PersonServiceImpl implements PersonService {
 
     private final String URL = "http://localhost:8081/persons";
     private final String URI = "/all";
 
-
+    @Override
     public String getPersons() {
         log.info("Querying microservice endpoint...");
         final WebClient client = WebClient.builder().baseUrl(URL).build();

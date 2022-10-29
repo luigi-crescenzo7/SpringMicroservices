@@ -1,6 +1,8 @@
-package it.unisa.tirocinio.Main;
+package it.unisa.tirocinio.controllers;
 
 
+import it.unisa.tirocinio.services.PersonService;
+import it.unisa.tirocinio.services.SimpleService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 
@@ -16,12 +18,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/")
 @Slf4j
 public class SimpleController {
-    private final SimpleService service;
-    private final PersonService personService;
 
-    public SimpleController(final SimpleService service, final PersonService personService) {
+    private final SimpleService service;
+    private final PersonService personServiceImpl;
+
+    public SimpleController(final SimpleService service, final PersonService personServiceImpl) {
         this.service = service;
-        this.personService = personService;
+        this.personServiceImpl = personServiceImpl;
     }
 
     @GetMapping({"/index", "/index.html"})
@@ -49,6 +52,6 @@ public class SimpleController {
     @ResponseBody
     public ResponseEntity<String> persons() {
         log.info("Call to /peoples endpoint");
-        return new ResponseEntity<>(personService.getPersons(), HttpStatus.OK);
+        return new ResponseEntity<>(personServiceImpl.getPersons(), HttpStatus.OK);
     }
 }

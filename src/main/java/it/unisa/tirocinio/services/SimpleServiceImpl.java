@@ -1,4 +1,4 @@
-package it.unisa.tirocinio.Main;
+package it.unisa.tirocinio.services;
 
 
 import lombok.extern.slf4j.Slf4j;
@@ -10,13 +10,14 @@ import java.util.Optional;
 
 @Service
 @Slf4j
-public class SimpleService {
+public class SimpleServiceImpl implements SimpleService {
 
     private final static String URL = "http://10.110.225.6:80";
     private final static String ENDPOINT = "/events";
 
-    public String getJSON() {
 
+    @Override
+    public String getJSON() {
         log.info("Fetching microservice endpoint...");
         final WebClient client = WebClient.builder().baseUrl(URL).build();
         Optional<String> opt = client.get()
