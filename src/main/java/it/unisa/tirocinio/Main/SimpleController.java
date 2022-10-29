@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 
 @Controller
-@RequestMapping(produces = {"application/json"})
+@RequestMapping("/")
 @Slf4j
 public class SimpleController {
     private final SimpleService service;
@@ -24,7 +24,7 @@ public class SimpleController {
         this.personService = personService;
     }
 
-    @GetMapping({"/", "/index", "/index.html"})
+    @GetMapping({"/index", "/index.html"})
     public String index(Model model) {
         model.addAttribute("attributo", "Hello");
         return "index";
