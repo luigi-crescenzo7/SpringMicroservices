@@ -20,11 +20,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class SimpleController {
 
     private final SimpleService service;
-    private final PersonService personServiceImpl;
+    private final PersonService personService;
 
-    public SimpleController(final SimpleService service, final PersonService personServiceImpl) {
+    public SimpleController(final SimpleService service, final PersonService personService) {
         this.service = service;
-        this.personServiceImpl = personServiceImpl;
+        this.personService = personService;
     }
 
     @GetMapping({"/index", "/index.html"})
@@ -52,6 +52,6 @@ public class SimpleController {
     @ResponseBody
     public ResponseEntity<String> persons() {
         log.info("Call to /peoples endpoint");
-        return new ResponseEntity<>(personServiceImpl.getPersons(), HttpStatus.OK);
+        return new ResponseEntity<>(personService.getPersons(), HttpStatus.OK);
     }
 }
