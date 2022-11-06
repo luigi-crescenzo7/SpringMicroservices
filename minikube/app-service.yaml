@@ -8,9 +8,7 @@ metadata:
 spec:
   selector:
     app: tirocinio
-  type: NodePort
   ports:
-    - nodePort: 30164
-      port: 8080
+  -   port: 8080
       targetPort: 8080
 
