@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: tirocinio-container
-          image: tirocinio-web-app-image
+          image: tirocinio-web-app-image:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
