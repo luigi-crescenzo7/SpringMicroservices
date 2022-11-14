@@ -1,4 +1,4 @@
-package it.unisa.tirocinio.Main;
+package it.unisa.tirocinio;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
