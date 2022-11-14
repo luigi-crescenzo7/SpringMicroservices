@@ -2,9 +2,21 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Test</title>
 </head>
-<body>
-<h1>Weee</h1>
+<body onload="fetch_assets()">
+<h1>We</h1>
+<p id="data"></p>
+<script>
+    function fetch_assets() {
+        const pTag = document.getElementById('data');
+        fetch("http://localhost:8087/api/contract")
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                pTag.innerHTML = data;
+            }).catch((error) => console.error("a" + error))
+    }
+</script>
 </body>
 </html>
