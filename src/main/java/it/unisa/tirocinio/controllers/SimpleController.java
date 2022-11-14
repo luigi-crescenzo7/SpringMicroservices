@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/app")
 @Slf4j
 public class SimpleController {
 
@@ -27,13 +27,13 @@ public class SimpleController {
         this.personService = personService;
     }
 
-    @GetMapping({"/index", "/index.html"})
+    @GetMapping(value = "index")
     public String index(Model model) {
-        model.addAttribute("attributo", "Hello");
-        return "index";
+        model.addAttribute("attributo", "bucchi");
+        return "index2";
     }
 
-    @GetMapping("/login")
+    @GetMapping("login")
     public String login(Model model) {
         return "login";
     }
