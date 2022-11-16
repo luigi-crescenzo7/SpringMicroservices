@@ -10,7 +10,7 @@
 <script>
     function fetch_assets() {
         const pTag = document.getElementById('data');
-        fetch("http://localhost:8087/api/contract")
+        fetch("http://localhost:8087/api/contract/all")
             .then((response) => response.json())
             .then((data) => {
                 console.log(data);
