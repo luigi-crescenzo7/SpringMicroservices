@@ -9,6 +9,7 @@ import java.util.Optional;
 
 @Service
 @Slf4j
+// SpringBoot REST MongoDB Endpoint
 public class PersonServiceImpl implements PersonService {
 
     private final String URL = "http://localhost:8081/persons";
