@@ -29,7 +29,7 @@ public class SimpleController {
 
     @GetMapping(value = "index")
     public String index(Model model) {
-        model.addAttribute("attributo", "bucchi");
+        model.addAttribute("attributo", "hooray!");
         return "index2";
     }
 

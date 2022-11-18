@@ -10,6 +10,7 @@ import java.util.Optional;
 
 @Service
 @Slf4j
+// Golang REST Endpoint
 public class SimpleServiceImpl implements SimpleService {
 
     private final static String URL = "http://10.110.225.6:80";
