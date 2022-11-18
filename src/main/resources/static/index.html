@@ -5,7 +5,7 @@
     <title>Test</title>
 </head>
 <body onload="fetch_assets()">
-<h1>We</h1>
+<h1>Main page</h1>
 <p id="data"></p>
 <script>
     function fetch_assets() {
@@ -14,8 +14,8 @@
             .then((response) => response.json())
             .then((data) => {
                 console.log(data);
-                pTag.innerHTML = data;
-            }).catch((error) => console.error("a" + error))
+                pTag.textContent = data;
+            }).catch((error) => console.error(error))
     }
 </script>
 </body>
