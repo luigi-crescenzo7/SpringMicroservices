@@ -8,9 +8,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface PersonRespository
-        extends MongoRepository<Person, String> {
+public interface UserRepository extends MongoRepository<User, String> {
 
-    @Query("{name:'?0'}")
-    List<Person> findByName(@Param("name") String name);
+    @Query("{name: '?0'}")
+    List<User> findAllByName(@Param("name") String name);
 }
