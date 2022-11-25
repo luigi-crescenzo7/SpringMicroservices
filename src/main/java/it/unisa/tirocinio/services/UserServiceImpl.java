@@ -10,7 +10,7 @@ import java.util.Optional;
 @Service
 @Slf4j
 // SpringBoot REST MongoDB Endpoint
-public class PersonServiceImpl implements PersonService {
+public class UserServiceImpl implements UserService {
 
     private final String URL = "http://localhost:8081/persons";
     private final String URI = "/all";

@@ -1,5 +1,5 @@
 package it.unisa.tirocinio.services;
 
-public interface PersonService {
+public interface UserService {
     String getPersons();
 }
