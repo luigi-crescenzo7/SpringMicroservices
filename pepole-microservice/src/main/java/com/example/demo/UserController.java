@@ -37,8 +37,7 @@ public class UserController {
 
     @PostMapping("/login")
     @ResponseBody
-    public ResponseEntity<String> authUser(@RequestParam(name = "email") String email,
-                                           @RequestParam(name = "passwordHash") String passwordHash) {
+    public ResponseEntity<String> authUser(@RequestParam(name = "passwordHash") String passwordHash) {
 
         List<User> users = userRepository.findAllUsersWithEmailAndPassword();
         log.info(users.toString());
