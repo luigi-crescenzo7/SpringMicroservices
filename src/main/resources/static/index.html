@@ -4,8 +4,18 @@
     <meta charset="UTF-8">
     <title>Test</title>
 </head>
-<body onload="fetch_assets()">
+<body>
 <h1>Main page</h1>
+<form method="post" action="http://localhost:8080/app/login">
+    <label title="email">
+        <input name="email" type="text">
+    </label>
+    <label title="password">
+        <input name="password" type="password">
+    </label>
+    <button formaction="/app/login">Send</button>
+</form>
+<button type="button" onclick="fetch_assets()">Click me</button>
 <p id="data"></p>
 <script>
     function fetch_assets() {
