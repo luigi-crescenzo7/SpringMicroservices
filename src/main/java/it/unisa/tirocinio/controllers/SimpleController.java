@@ -32,23 +32,18 @@ public class SimpleController {
         return "index2";
     }
 
-    @PostMapping("login")
-    public String login(@RequestParam(name = "email") String email,
-                        @RequestParam(name = "password") String password,
-                        Model model) {
+    @GetMapping(value = "/register")
+    public String register() {
+        return "registration";
+    }
 
-        System.out.println(email + "  " + password);
-        // implement BCrypt hashing.
-        boolean flag = userService.login(email, password);
-        if (flag) {
-            model.addAttribute("auth", "true");
-        } else {
-            model.addAttribute("auth", "false");
-        }
+    @GetMapping(value = "/login")
+    public String login() {
         return "login";
     }
 
 
+    //DEPRECATED
     @GetMapping(value = "/json")
     @ResponseBody
     public ResponseEntity<String> json() {
