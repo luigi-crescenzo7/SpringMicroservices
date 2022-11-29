@@ -1,7 +1,7 @@
 package it.unisa.tirocinio.services;
 
 public interface UserService {
-    String getPersons();
+    String getUsers();
 
     boolean login(String email, String password);
 }

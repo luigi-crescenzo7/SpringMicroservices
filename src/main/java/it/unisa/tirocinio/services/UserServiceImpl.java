@@ -19,7 +19,7 @@ public class UserServiceImpl implements UserService {
     private final String LOGIN = "/login";
 
     @Override
-    public String getPersons() {
+    public String getUsers() {
         log.info("Querying microservice endpoint...");
         final WebClient client = buildWebClient();
 

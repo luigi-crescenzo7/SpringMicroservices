@@ -56,10 +56,10 @@ public class SimpleController {
         return new ResponseEntity<>(service.getJSON(), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/peoples")
+    @GetMapping(value = "/users")
     @ResponseBody
     public ResponseEntity<String> persons() {
         log.info("Call to /peoples endpoint");
-        return new ResponseEntity<>(userService.getPersons(), HttpStatus.OK);
+        return new ResponseEntity<>(userService.getUsers(), HttpStatus.OK);
     }
 }
