@@ -7,11 +7,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 
 @Controller
@@ -21,6 +20,7 @@ public class SimpleController {
 
     private final SimpleService service;
     private final UserService userService;
+
 
     public SimpleController(final SimpleService service, final UserService userService) {
         this.service = service;
@@ -33,8 +33,19 @@ public class SimpleController {
         return "index2";
     }
 
-    @GetMapping("login")
-    public String login(Model model) {
+    @PostMapping("login")
+    public String login(@RequestParam(name = "email") String email,
+                        @RequestParam(name = "password") String password,
+                        Model model) {
+
+        System.out.println(email + "  " + password);
+        // implement BCrypt hashing.
+        boolean flag = userService.login(email, password);
+        if (flag) {
+            model.addAttribute("auth", "true");
+        } else {
+            model.addAttribute("auth", "false");
+        }
         return "login";
     }
 
