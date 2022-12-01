@@ -15,7 +15,7 @@
             .then((response) => response.json())
             .then((data) => {
                 console.log(data);
-                pTag.textContent = data;
+                pTag.textContent = JSON.stringify(data);
             }).catch((error) => console.error(error))
     }
 </script>
