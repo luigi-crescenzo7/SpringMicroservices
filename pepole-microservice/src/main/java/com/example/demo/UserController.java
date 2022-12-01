@@ -34,6 +34,12 @@ public class UserController {
         log.info("/users/name endpoint");
         return userRepository.findAllByName(name);
     }
+/*
+    @PostMapping("/register")
+    @ResponseBody
+    public ResponseEntity<User> register(User) {
+
+    }*/
 
     @PostMapping("/login")
     @ResponseBody
