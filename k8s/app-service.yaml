@@ -10,7 +10,7 @@ spec:
     app: tirocinio
   ports:
   -   port: 8080
-      name: service-port
+      name: http
       appProtocol: http
       targetPort: 8080
 
