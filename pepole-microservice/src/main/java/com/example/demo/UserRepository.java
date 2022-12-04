@@ -21,6 +21,6 @@ public interface UserRepository extends MongoRepository<User, String> {
     <S extends User> Optional<S> findByEmailAndPassword(@Param("email") String email, @Param("password") String password);
 
     //change query to fetch only the password field
-    @Query("{}{_id: 0, email:1, password: 1}")
+    @Query("{}{id: 0, email:1, password: 1}")
     <S extends User> List<S> findAllUsersWithEmailAndPassword();
 }
