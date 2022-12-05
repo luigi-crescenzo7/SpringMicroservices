@@ -2,6 +2,7 @@ package it.unisa.tirocinio.services;
 
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -13,13 +14,17 @@ import java.util.Optional;
 // SpringBoot REST MongoDB Endpoint
 public class UserServiceImpl implements UserService {
 
+
     private final String URL = "http://localhost:8081/users";
     private final String URI = "/all";
 
+    @Value("${app.endpoint}")
+    private String tmp;
     private final String LOGIN = "/login";
 
     @Override
     public String getUsers() {
+        log.info(tmp);
         log.info("Querying microservice endpoint...");
         final WebClient client = buildWebClient();
 
@@ -34,6 +39,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean login(String email, String password) {
         final WebClient client = buildWebClient();
+        log.info(tmp);
 
         Optional<String> opt = client.post().uri(LOGIN)
                 .body(BodyInserters.fromFormData("email", email).with("passwordHash", password))
