@@ -42,8 +42,7 @@ public class SimpleController {
         return "login";
     }
 
-
-    //DEPRECATED
+    // DO NOT USE
     @GetMapping(value = "/json")
     @ResponseBody
     public ResponseEntity<String> json() {
