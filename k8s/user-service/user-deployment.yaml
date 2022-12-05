@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: users-app
+  namespace: default
+  labels:
+    app: users
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: users
+  template:
+    metadata:
+      labels:
+        app: users
+    spec:
+      containers:
+        - name: users-container
+          image: users-service:latest
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: ENDPOINT
+              value: "ciao"
+          ports:
+            - containerPort: 8081
+
+
