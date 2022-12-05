@@ -10,7 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication
 @EnableMongoRepositories
-public class DemoApplication {
+public class UsersApplication {
 
     @Bean
     public PasswordEncoder bcryptPasswordEncoder() {
@@ -18,6 +18,6 @@ public class DemoApplication {
     }
 
     public static void main(String[] args) {
-        SpringApplication.run(DemoApplication.class, args);
+        SpringApplication.run(UsersApplication.class, args);
     }
 }
