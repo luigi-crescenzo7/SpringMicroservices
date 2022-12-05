@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>it.unisa.tirocinio</groupId>
-	<artifactId>Tirocinio</artifactId>
+	<artifactId>TirocinioWebApp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>TirocinioWebApp</name>
 	<description>WebApp Tirocinio</description>
