@@ -19,6 +19,9 @@ spec:
         - name: tirocinio-container
           image: tirocinio-web-app-image:latest
           imagePullPolicy: IfNotPresent
+          env:
+            - name: ENDPOINT
+              value: "ciao"
           ports:
             - containerPort: 8080
 
