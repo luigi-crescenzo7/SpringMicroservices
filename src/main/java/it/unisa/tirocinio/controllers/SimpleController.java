@@ -52,8 +52,8 @@ public class SimpleController {
 
     @GetMapping(value = "/users")
     @ResponseBody
-    public ResponseEntity<String> persons() {
-        log.info("Call to /peoples endpoint");
+    public ResponseEntity<String> users() {
+        log.info("Call to /users endpoint");
         return new ResponseEntity<>(userService.getUsers(), HttpStatus.OK);
     }
 }
