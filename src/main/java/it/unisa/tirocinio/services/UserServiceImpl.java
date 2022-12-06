@@ -15,16 +15,14 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
 
-    private final String URL = "http://localhost:8081/users";
-    private final String URI = "/all";
+    @Value("${app.users-rest-url}")
+    private String URL;
+    private String URI = "/all";
 
-    @Value("${app.endpoint}")
-    private String tmp;
-    private final String LOGIN = "/login";
+    private String LOGIN = "/login";
 
     @Override
     public String getUsers() {
-        log.info(tmp);
         log.info("Querying microservice endpoint...");
         final WebClient client = buildWebClient();
 
@@ -38,8 +36,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean login(String email, String password) {
+        log.info("Querying microservice endpoint...");
         final WebClient client = buildWebClient();
-        log.info(tmp);
 
         Optional<String> opt = client.post().uri(LOGIN)
                 .body(BodyInserters.fromFormData("email", email).with("passwordHash", password))
@@ -51,6 +49,6 @@ public class UserServiceImpl implements UserService {
 
 
     private WebClient buildWebClient() {
-        return WebClient.builder().baseUrl(URL).build();
+        return WebClient.builder().baseUrl(URL + "users/").build();
     }
 }
