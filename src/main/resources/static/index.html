@@ -3,21 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Test</title>
+    <script defer type="application/javascript" src="./js/assets.js"></script>
 </head>
 <body>
 <h1>Main page</h1>
 <button type="button" onclick="fetch_assets()">Click me</button>
 <p id="data"></p>
-<script>
+<!--<script>
     function fetch_assets() {
-        const pTag = document.getElementById('data');
-        fetch("http://localhost:8087/api/contract/all")
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(data);
-                pTag.textContent = JSON.stringify(data);
-            }).catch((error) => console.error(error))
     }
-</script>
+</script>-->
 </body>
 </html>
