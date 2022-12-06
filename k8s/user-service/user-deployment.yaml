@@ -19,10 +19,5 @@ spec:
         - name: users-container
           image: users-service:latest
           imagePullPolicy: IfNotPresent
-          env:
-            - name: ENDPOINT
-              value: "ciao"
           ports:
             - containerPort: 8081
-
-
