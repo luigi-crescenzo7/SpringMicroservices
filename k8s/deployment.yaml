@@ -20,8 +20,14 @@ spec:
           image: tirocinio-web-app-image:latest
           imagePullPolicy: IfNotPresent
           env:
-            - name: ENDPOINT
-              value: "ciao"
+            - name: USERS_REST_URL
+              value: "http://users-rest/"
+            - name: USERS_REST_PORT
+              value: "8081"
+            - name: FABRIC_REST_URL
+              value: "http://host.minikube.internal:8087/api/contract/all"
+            - name: FABRIC_REST_PORT
+              value: "8087"
           ports:
             - containerPort: 8080
 
