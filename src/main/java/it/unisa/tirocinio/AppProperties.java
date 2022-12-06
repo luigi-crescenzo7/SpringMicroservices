@@ -10,5 +10,9 @@ import org.springframework.stereotype.Component;
 @Component
 @ConfigurationProperties(prefix = "app")
 public class AppProperties {
-    String endpoint;
+    String usersRestUrl;
+    String usersRestPort;
+
+    String fabricRestUrl;
+    String fabricRestPort;
 }
