@@ -26,7 +26,6 @@ public class AuthenticationController {
                         Model model) {
 
         System.out.println(email + "  " + password);
-        // implement BCrypt hashing.
         boolean flag = userService.login(email, password);
         if (flag) {
             model.addAttribute("auth", "true");
