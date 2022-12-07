@@ -1,6 +1,7 @@
 package it.unisa.tirocinio.controllers;
 
 
+import it.unisa.tirocinio.services.FabricService;
 import it.unisa.tirocinio.services.UserService;
 import it.unisa.tirocinio.services.SimpleService;
 import lombok.extern.slf4j.Slf4j;
@@ -19,11 +20,16 @@ public class SimpleController {
 
     private final SimpleService service;
     private final UserService userService;
+    private final FabricService fabricService;
 
 
-    public SimpleController(final SimpleService service, final UserService userService) {
+    public SimpleController(final SimpleService service,
+                            final UserService userService,
+                            final FabricService fabricService) {
+
         this.service = service;
         this.userService = userService;
+        this.fabricService = fabricService;
     }
 
     @GetMapping(value = "index")
@@ -31,6 +37,16 @@ public class SimpleController {
         model.addAttribute("attributo", "hooray!");
         return "index2";
     }
+
+    @GetMapping(value = "/assets")
+    public String assets(Model model) {
+        log.info("/assets");
+        String result = fabricService.findAllAssets();
+        model.addAttribute("assets", result);
+
+        return "assetsTemplate";
+    }
+
 
     @GetMapping(value = "/register")
     public String register() {
