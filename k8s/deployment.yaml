@@ -25,7 +25,7 @@ spec:
             - name: USERS_REST_PORT
               value: "8081"
             - name: FABRIC_REST_URL
-              value: "https://host.minikube.internal:8443/"
+              value: "https://192.168.67.1:8447"
             - name: FABRIC_REST_PORT
               value: "8443"
           ports:
