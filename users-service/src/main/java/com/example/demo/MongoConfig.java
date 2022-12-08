@@ -1,8 +1,8 @@
 package com.example.demo;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
 import org.springframework.data.mongodb.MongoDatabaseFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.SimpleMongoClientDatabaseFactory;
@@ -11,11 +11,9 @@ import java.util.Objects;
 
 @Configuration
 public class MongoConfig {
-    private final Environment env;
 
-    public MongoConfig(Environment env) {
-        this.env = env;
-    }
+    @Value("${spring.data.mongodb.uri}")
+    private String mongoDbUri;
 
     @Bean
     public MongoTemplate mongoTemplate() {
@@ -24,6 +22,6 @@ public class MongoConfig {
 
     @Bean
     public MongoDatabaseFactory mongoDatabaseFactory() {
-        return new SimpleMongoClientDatabaseFactory(Objects.requireNonNull(env.getProperty("spring.data.mongodb.uri")));
+        return new SimpleMongoClientDatabaseFactory(Objects.requireNonNull(mongoDbUri));
     }
 }
