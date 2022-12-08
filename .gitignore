@@ -18,6 +18,10 @@ mvnw.cmd
 
 ### IntelliJ IDEA ###
 src/main/resources/application.properties
+kotlin-service/.mvn/*
+users-service/.mvn/*
+kotlin-service/src/main/resources/application.properties
+users-service/src/main/resources/application.properties
 .idea
 *.iws
 *.iml
