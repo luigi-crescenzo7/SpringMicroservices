@@ -14,7 +14,7 @@ import org.springframework.data.mongodb.core.SimpleMongoClientDatabaseFactory
 class MongoConfig {
 
     @Value("\${spring.data.mongodb.uri}")
-    var mongoDbUri: String = ""
+    lateinit var mongoDbUri: String
 
     @Bean
     fun mongoTemplate(): MongoTemplate {
