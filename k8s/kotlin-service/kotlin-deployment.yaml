@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kotlin-app-deployment
+  namespace: default
+  labels:
+    app: kotlin-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kotlin-app
+  template:
+    metadata:
+      labels:
+        app: kotlin-app
+    spec:
+      containers:
+        - name: kotlin-container
+          image: kotlin-app-image:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8082
