@@ -1,4 +1,4 @@
-package com.example.kotlinservice
+package com.example.kotlinservice.beans
 
 import org.springframework.data.mongodb.core.mapping.Document
 import org.springframework.data.mongodb.core.mapping.Field
@@ -9,17 +9,17 @@ import java.time.LocalDate
 @Document("User")
 data class User(
     @MongoId @Field
-    val id: String,
+    private var id: String,
     @Field
-    val name: String,
+    private var name: String,
     @Field
-    val surname: String,
+    private var surname: String,
     @Field
-    val email: String,
+    private var email: String,
     @Field
-    val password: String,
+    private var password: String,
     @Field
-    val gender: String,
+    private var gender: String,
     @Field
-    val dateOfBirth: LocalDate
+    private var dateOfBirth: LocalDate
 )

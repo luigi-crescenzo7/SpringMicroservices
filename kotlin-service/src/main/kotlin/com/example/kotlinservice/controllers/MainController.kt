@@ -1,5 +1,9 @@
-package com.example.kotlinservice
+package com.example.kotlinservice.controllers
 
+import com.example.kotlinservice.beans.User
+import com.example.kotlinservice.beans.VaultItem
+import com.example.kotlinservice.repositories.UserRepository
+import com.example.kotlinservice.repositories.VaultItemRepository
 import lombok.extern.slf4j.Slf4j
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -20,7 +24,8 @@ inline fun <reified T> getLogger(): Logger {
 @Slf4j
 @RequestMapping("/kotlin")
 class MainController(
-    private val repository: UserRepository
+    private val repository: UserRepository,
+    private val vaultItemRepository: VaultItemRepository
 ) {
 
     val log: Logger = getLogger<MainController>()
@@ -28,14 +33,21 @@ class MainController(
     @GetMapping("/users")
     @ResponseBody
     fun users(): MutableList<User> {
-        log.info("fetching users")
+        log.info("/users endpoint")
         return repository.findAll()
+    }
+
+    @GetMapping("/items")
+    @ResponseBody
+    fun items(): MutableList<VaultItem> {
+        log.info("/items endpoint")
+        return vaultItemRepository.findAll()
     }
 
     @GetMapping(value = ["/test"])
     @ResponseBody
     fun test(): ResponseEntity<String> {
-        log.info("/test resource")
+        log.info("/test endpoint")
         return ResponseEntity<String>("Hello", HttpStatus.OK)
     }
 }
