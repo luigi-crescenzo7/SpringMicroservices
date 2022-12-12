@@ -87,6 +87,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <imageBuilder>gcr.io/paketo-buildpacks/graalvm</imageBuilder>
+                    <imageName>kotlin-test-native</imageName>
                     <excludes>
                         <exclude>
                             <groupId>org.projectlombok</groupId>
