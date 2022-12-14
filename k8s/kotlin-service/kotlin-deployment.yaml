@@ -16,8 +16,8 @@ spec:
         app: kotlin-app
     spec:
       containers:
-        - name: kotlin-container
-          image: kotlin-app-image:latest
+        - name: kotlin-app
+          image: gigi7/kotlin-test-native:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8082
