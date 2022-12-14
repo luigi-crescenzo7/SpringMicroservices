@@ -18,7 +18,6 @@
         <kotlin.version>1.7.21</kotlin.version>
     </properties>
     <dependencies>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-mongodb</artifactId>
@@ -81,12 +80,26 @@
             <plugin>
                 <groupId>org.graalvm.buildtools</groupId>
                 <artifactId>native-maven-plugin</artifactId>
+                <version>0.9.18</version>
             </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>3.0.0</version>
                 <configuration>
-                    <imageBuilder>gcr.io/paketo-buildpacks/graalvm</imageBuilder>
+                    <image>
+                        <buildpacks>
+                            <buildpack>gcr.io/paketo-buildpacks/graalvm</buildpack>
+                            <buildpack>gcr.io/paketo-buildpacks/java-native-image</buildpack>
+                        </buildpacks>
+                        <env>
+                            <BP_NATIVE_IMAGE>true</BP_NATIVE_IMAGE>
+                        </env>
+                    </image>
+                    <!--<image>
+                        <builder>paketobuildpacks/builder:tiny</builder>
+                    </image>-->
+                    <!--<imageBuilder>gcr.io/paketo-buildpacks/graalvm</imageBuilder>!-->
                     <imageName>kotlin-test-native</imageName>
                     <excludes>
                         <exclude>
