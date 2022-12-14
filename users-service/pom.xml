@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.5</version>
+        <version>3.0.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.example</groupId>
@@ -38,11 +38,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-        <dependency>
+        <!--<dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webflux</artifactId>
-        </dependency>
-
+            <version>3.0.0</version>
+        </dependency>-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
@@ -70,12 +70,18 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
     <build>
         <plugins>
             <plugin>
+                <groupId>org.graalvm.buildtools</groupId>
+                <artifactId>native-maven-plugin</artifactId>
+                <version>0.9.18</version>
+
+            </plugin>
+            <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>3.0.0</version>
                 <configuration>
                     <excludes>
                         <exclude>
@@ -83,6 +89,24 @@
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
+                    <image>
+                        <buildpacks>
+                            <buildpack>gcr.io/paketo-buildpacks/graalvm</buildpack>
+                            <buildpack>gcr.io/paketo-buildpacks/java-native-image</buildpack>
+                        </buildpacks>
+                        <env>
+                            <BP_NATIVE_IMAGE>true</BP_NATIVE_IMAGE>
+                            <!--<BP_NATIVE_IMAGE_BUILD_ARGUMENTS>
+                                initialize-at-run-time=ch.qos.logback.classic.Logger
+                                trace-class-initialization=org.slf4j.LoggerFactory,io.netty.util.AbstractReferenceCounted,org.slf4j.MDC,ch.qos.logback.classic.Logger
+                            </BP_NATIVE_IMAGE_BUILD_ARGUMENTS>-->
+                        </env>
+                    </image>
+                    <!--<image>
+                        <builder>paketobuildpacks/builder:tiny</builder>
+                    </image>-->
+                    <!--<imageBuilder>gcr.io/paketo-buildpacks/graalvm</imageBuilder>!-->
+                    <imageName>users-native-image</imageName>
                 </configuration>
             </plugin>
         </plugins>
