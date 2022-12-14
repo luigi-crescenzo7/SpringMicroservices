@@ -9,13 +9,13 @@ import java.time.LocalDate
 data class VaultItem(
     @MongoId
     @Field
-    private var id: String,
+    var id: String,
     @Field
-    private var resourceURI: String,
+    var resourceURI: String,
     @Field
-    private var idCardNumber: String,
+    var idCardNumber: String,
     @Field
-    private var itemName: String,
+    var itemName: String,
     @Field
-    private var creationDate: LocalDate
+    var creationDate: LocalDate
 )

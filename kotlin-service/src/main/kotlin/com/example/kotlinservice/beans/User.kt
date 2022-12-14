@@ -9,17 +9,17 @@ import java.time.LocalDate
 @Document("User")
 data class User(
     @MongoId @Field
-    private var id: String,
+    var id: String,
     @Field
-    private var name: String,
+    var name: String,
     @Field
-    private var surname: String,
+    var surname: String,
     @Field
-    private var email: String,
+    var email: String,
     @Field
-    private var password: String,
+    var password: String,
     @Field
-    private var gender: String,
+    var gender: String,
     @Field
-    private var dateOfBirth: LocalDate
+    var dateOfBirth: LocalDate
 )
