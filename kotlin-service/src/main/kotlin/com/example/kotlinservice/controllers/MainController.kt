@@ -10,17 +10,17 @@ import org.slf4j.LoggerFactory
 
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseBody
+import org.springframework.web.bind.annotation.RestController
 
 
 inline fun <reified T> getLogger(): Logger {
     return LoggerFactory.getLogger(T::class.java)
 }
 
-@Controller
+@RestController
 @Slf4j
 @RequestMapping("/kotlin")
 class MainController(
@@ -31,23 +31,21 @@ class MainController(
     val log: Logger = getLogger<MainController>()
 
     @GetMapping("/users")
-    @ResponseBody
-    fun users(): MutableList<User> {
+    fun users(): List<User> {
         log.info("/users endpoint")
         return repository.findAll()
     }
 
     @GetMapping("/items")
-    @ResponseBody
-    fun items(): MutableList<VaultItem> {
+    fun items(): List<VaultItem> {
         log.info("/items endpoint")
         return vaultItemRepository.findAll()
     }
 
-    @GetMapping(value = ["/test"])
+    @GetMapping("test")
     @ResponseBody
     fun test(): ResponseEntity<String> {
         log.info("/test endpoint")
-        return ResponseEntity<String>("Hello", HttpStatus.OK)
+        return ResponseEntity<String>("Hello\n", HttpStatus.OK)
     }
 }
