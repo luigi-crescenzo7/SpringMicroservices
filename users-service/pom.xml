@@ -70,14 +70,41 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+    <profiles>
+        <profile>
+            <id>native</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.graalvm.buildtools</groupId>
+                        <artifactId>native-maven-plugin</artifactId>
+                        <extensions>true</extensions>
+                        <executions>
+                            <execution>
+                                <id>build-native</id>
+                                <goals>
+                                    <goal>compile-no-fork</goal>
+                                </goals>
+                                <phase>package</phase>
+                            </execution>
+                            <execution>
+                                <id>test-native</id>
+                                <goals>
+                                    <goal>test</goal>
+                                </goals>
+                                <phase>test</phase>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <skipNativeTests>true</skipNativeTests>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.graalvm.buildtools</groupId>
-                <artifactId>native-maven-plugin</artifactId>
-                <version>0.9.18</version>
-
-            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -96,20 +123,14 @@
                         </buildpacks>
                         <env>
                             <BP_NATIVE_IMAGE>true</BP_NATIVE_IMAGE>
-                            <!--<BP_NATIVE_IMAGE_BUILD_ARGUMENTS>
-                                initialize-at-run-time=ch.qos.logback.classic.Logger
-                                trace-class-initialization=org.slf4j.LoggerFactory,io.netty.util.AbstractReferenceCounted,org.slf4j.MDC,ch.qos.logback.classic.Logger
-                            </BP_NATIVE_IMAGE_BUILD_ARGUMENTS>-->
+                            <BP_NATIVE_IMAGE_BUILD_ARGUMENTS>
+                                <!--    trace-class-initialization=org.slf4j.LoggerFactory,io.netty.util.AbstractReferenceCounted,org.slf4j.MDC,ch.qos.logback.classic.Logger-->
+                            </BP_NATIVE_IMAGE_BUILD_ARGUMENTS>
                         </env>
                     </image>
-                    <!--<image>
-                        <builder>paketobuildpacks/builder:tiny</builder>
-                    </image>-->
-                    <!--<imageBuilder>gcr.io/paketo-buildpacks/graalvm</imageBuilder>!-->
-                    <imageName>users-native-image</imageName>
+                    <imageName>users-native</imageName>
                 </configuration>
             </plugin>
         </plugins>
     </build>
-
 </project>
