@@ -11,9 +11,13 @@ import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.ModelAttribute
+import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.bind.annotation.RestController
+import java.time.LocalDate
 
 
 inline fun <reified T> getLogger(): Logger {
@@ -34,6 +38,19 @@ class MainController(
     fun users(): List<User> {
         log.info("/users endpoint")
         return repository.findAll()
+    }
+
+    @PostMapping("/save-item")
+    fun item(@ModelAttribute("item") item: VaultItem): ResponseEntity<String> {
+        log.info("Item: $item")
+        val savedItem = vaultItemRepository.save(
+            VaultItem(
+                resourceURI = "", itemName = "",
+                idCardNumber = "", creationDate = LocalDate.now()
+            )
+        )
+
+        return ResponseEntity<String>("Item with id ${savedItem.id ?: -1} saved", HttpStatus.OK)
     }
 
     @GetMapping("/items")
