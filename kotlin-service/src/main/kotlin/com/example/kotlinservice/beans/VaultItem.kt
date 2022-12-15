@@ -9,7 +9,7 @@ import java.time.LocalDate
 data class VaultItem(
     @MongoId
     @Field
-    var id: String,
+    var id: String? = null,
     @Field
     var resourceURI: String,
     @Field
