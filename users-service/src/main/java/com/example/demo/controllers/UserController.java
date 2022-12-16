@@ -48,15 +48,11 @@ public class UserController {
     public ResponseEntity<String> authUser(@RequestParam(name = "email") String email,
                                            @RequestParam(name = "passwordHash") String passwordHash) {
 
-        List<User> users = userRepository.findAllUsersWithEmailAndPassword();
-        log.info(users.toString());
-
-        Optional<User> userOptional = users.stream().filter(
-                (user) -> user.getEmail().equals(email) &&
-                        encoder.matches(passwordHash, user.getPassword())).findFirst();
-
-        if (userOptional.isEmpty())
+        Optional<User> optUser = userRepository.findUserByEmail(email);
+        User savedUser = optUser.orElseThrow();
+        if (!encoder.matches(passwordHash, savedUser.getPassword()))
             return new ResponseEntity<>("not authorized", HttpStatus.OK);
+
 
         log.info("User is present");
         return new ResponseEntity<>("authorized", HttpStatus.OK);
