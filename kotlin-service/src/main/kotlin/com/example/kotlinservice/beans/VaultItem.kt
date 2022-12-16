@@ -1,5 +1,7 @@
 package com.example.kotlinservice.beans
 
+
+import org.bson.types.ObjectId
 import org.springframework.data.mongodb.core.mapping.DBRef
 import org.springframework.data.mongodb.core.mapping.Document
 import org.springframework.data.mongodb.core.mapping.Field
@@ -19,7 +21,8 @@ data class VaultItem(
     var itemName: String,
     @Field
     var creationDate: LocalDate,
-    @DBRef(db = "User")
+    // decidere se rimanre l'annotazione DBref.. problemi di conversione..
+    //@DBRef(db = "User")
     @Field
-    var ownerId: String
+    var ownerId: ObjectId
 )

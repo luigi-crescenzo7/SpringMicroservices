@@ -5,18 +5,20 @@ import com.example.kotlinservice.beans.VaultItem
 import com.example.kotlinservice.repositories.UserRepository
 import com.example.kotlinservice.repositories.VaultItemRepository
 import lombok.extern.slf4j.Slf4j
+import org.bson.types.ObjectId
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import java.time.LocalDate
 
 
 inline fun <reified T> getLogger(): Logger {
     return LoggerFactory.getLogger(T::class.java)
 }
+
+data class VaultItemDTO(val vaultItem: VaultItem, val ownerId: String)
 
 @RestController
 @Slf4j
@@ -42,17 +44,19 @@ class MainController(
     }
 
     @PostMapping("/save-item")
-    fun item(@ModelAttribute("item") item: VaultItem): ResponseEntity<String> {
-        log.info("Item: $item")
+    fun item(@RequestBody item: VaultItemDTO): ResponseEntity<String> {
+        log.info("Item received: $item")
+
         val savedItem = vaultItemRepository.save(
             VaultItem(
-                resourceURI = "", idCardNumber = "",
-                itemName = "", creationDate = LocalDate.now(),
-                ownerId = ""
+                resourceURI = item.vaultItem.resourceURI, idCardNumber = item.vaultItem.idCardNumber,
+                itemName = item.vaultItem.itemName, creationDate = item.vaultItem.creationDate,
+                ownerId = ObjectId(item.ownerId)
             )
         )
 
-        return ResponseEntity<String>("Item with id ${savedItem.id ?: -1} saved", HttpStatus.OK)
+
+        return ResponseEntity<String>("${savedItem.id == null}", HttpStatus.OK)
     }
 
     @GetMapping("/items")
