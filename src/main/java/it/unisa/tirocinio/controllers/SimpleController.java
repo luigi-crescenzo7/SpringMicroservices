@@ -62,7 +62,6 @@ public class SimpleController {
         return "assetsTemplate";
     }
 
-
     @GetMapping(value = "/register")
     public String register() {
         return "registration";
