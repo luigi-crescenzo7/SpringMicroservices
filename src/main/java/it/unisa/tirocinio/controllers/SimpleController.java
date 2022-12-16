@@ -4,7 +4,7 @@ package it.unisa.tirocinio.controllers;
 import it.unisa.tirocinio.beans.VaultItem;
 import it.unisa.tirocinio.services.FabricService;
 import it.unisa.tirocinio.services.UserService;
-import it.unisa.tirocinio.services.SimpleService;
+import it.unisa.tirocinio.services.VaultItemService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 
@@ -20,18 +20,20 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 public class SimpleController {
 
-    private final SimpleService service;
+    private final VaultItemService vaultService;
     private final UserService userService;
     private final FabricService fabricService;
 
 
-    public SimpleController(final SimpleService service,
-                            final UserService userService,
-                            final FabricService fabricService) {
+    public SimpleController(
+            final UserService userService,
+            final FabricService fabricService,
+            final VaultItemService vaultService) {
 
-        this.service = service;
+
         this.userService = userService;
         this.fabricService = fabricService;
+        this.vaultService = vaultService;
     }
 
     @GetMapping(value = "index")
@@ -44,7 +46,11 @@ public class SimpleController {
     public ResponseEntity<String> item(@ModelAttribute VaultItem item, BindingResult result) {
         if (result.hasErrors())
             return new ResponseEntity<>("Error mapping VaultItem object", HttpStatus.BAD_REQUEST);
-        log.info("Item received: " + item.toString());
+        item.setOwnerId("63834344af957a1c25218b32");
+        boolean flag = vaultService.saveItem(item);
+        if (!flag) return new ResponseEntity<>("item not saved", HttpStatus.BAD_REQUEST);
+
+        log.info("Item received: " + item);
         return new ResponseEntity<>("ok", HttpStatus.OK);
     }
 
@@ -70,14 +76,6 @@ public class SimpleController {
     @GetMapping(value = "/login")
     public String login() {
         return "login";
-    }
-
-    // DO NOT USE
-    @GetMapping(value = "/json")
-    @ResponseBody
-    public ResponseEntity<String> json() {
-        log.info("Call to /json endpoint");
-        return new ResponseEntity<>(service.getJSON(), HttpStatus.OK);
     }
 
     @GetMapping(value = "/users")
