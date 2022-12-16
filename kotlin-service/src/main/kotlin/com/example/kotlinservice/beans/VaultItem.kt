@@ -1,5 +1,6 @@
 package com.example.kotlinservice.beans
 
+import org.springframework.data.mongodb.core.mapping.DBRef
 import org.springframework.data.mongodb.core.mapping.Document
 import org.springframework.data.mongodb.core.mapping.Field
 import org.springframework.data.mongodb.core.mapping.MongoId
@@ -17,5 +18,8 @@ data class VaultItem(
     @Field
     var itemName: String,
     @Field
-    var creationDate: LocalDate
+    var creationDate: LocalDate,
+    @DBRef(db = "User")
+    @Field
+    var ownerId: String
 )
