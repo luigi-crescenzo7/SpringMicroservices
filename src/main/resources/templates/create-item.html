@@ -3,16 +3,25 @@
 <head>
 
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Item</title>
 </head>
 <body>
 <!--/*@thymesVar id="VaultItem" type="it.unisa.tirocinio.beans.VaultItem"*/-->
 <form method="post" action="#" th:action="@{/app/create-item}" th:object="${VaultItem}">
     <label>
-        <input type="text" th:field="*{id}">
+        <input type="text" th:field="*{itemName}">
     </label>
     <label>
-        <input type="text" th:field="*{name}">
+        <input type="text" th:field="*{resourceURI}">
+    </label>
+    <label>
+        <input type="text" th:field="*{idCardNumber}">
+    </label>
+    <label>
+        <input type="text" th:field="*{ownerId}">
+    </label>
+    <label>
+        <input type="date" th:field="*{creationDate}">
     </label>
     <input type="submit" value="Send">
 </form>
