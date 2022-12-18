@@ -1,32 +1,47 @@
 package com.example.kotlinservice
 
 
+import com.mongodb.client.MongoClient
+import com.mongodb.client.MongoClients
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.data.mongodb.config.AbstractReactiveMongoConfiguration
-import org.springframework.data.mongodb.core.MongoTemplate
+import org.springframework.data.mongodb.MongoDatabaseFactory
 import org.springframework.data.mongodb.core.SimpleMongoClientDatabaseFactory
+import org.springframework.data.mongodb.core.convert.DefaultDbRefResolver
+import org.springframework.data.mongodb.core.convert.MappingMongoConverter
 import org.springframework.data.mongodb.core.convert.MongoCustomConversions
+import org.springframework.data.mongodb.core.mapping.MongoMappingContext
+
 
 
 @Configuration
-class MongoConfig : AbstractReactiveMongoConfiguration() {
+class MongoConfig {
 
     @Value("\${spring.data.mongodb.uri}")
     lateinit var mongoDbUri: String
 
     @Bean
-    override fun customConversions(): MongoCustomConversions {
-        return super.customConversions()
+    fun mongoClient(): MongoClient {
+        return MongoClients.create(mongoDbUri)
+    }
+
+
+    fun configureConverters(converterConfigurationAdapter: MongoCustomConversions.MongoConverterConfigurationAdapter) {
+        //converterConfigurationAdapter.registerConverter(VaultItemWriteConverter())
     }
 
     @Bean
-    fun mongoTemplate(): MongoTemplate {
-        return MongoTemplate(SimpleMongoClientDatabaseFactory(mongoDbUri))
+    fun mongoDbFactory(): MongoDatabaseFactory {
+        return SimpleMongoClientDatabaseFactory(mongoClient(), getDatabaseName())
     }
 
-    override fun getDatabaseName(): String {
+    @Bean
+    fun getDatabaseName(): String {
         return "app-db"
+    }
+
+    fun mappingMongoConverter(): MappingMongoConverter {
+        return MappingMongoConverter(DefaultDbRefResolver(mongoDbFactory()), MongoMappingContext())
     }
 }
