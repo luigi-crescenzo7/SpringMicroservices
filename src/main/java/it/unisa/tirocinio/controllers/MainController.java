@@ -18,14 +18,14 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/app")
 @Slf4j
-public class SimpleController {
+public class MainController {
 
     private final VaultItemService vaultService;
     private final UserService userService;
     private final FabricService fabricService;
 
 
-    public SimpleController(
+    public MainController(
             final UserService userService,
             final FabricService fabricService,
             final VaultItemService vaultService) {
