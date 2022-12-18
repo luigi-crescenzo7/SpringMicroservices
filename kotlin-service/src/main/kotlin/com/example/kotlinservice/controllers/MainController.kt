@@ -54,7 +54,7 @@ class MainController(
         log.info("item: $item")
         item.id = ObjectId().toString()
 
-        val u = User(
+        val user = User(
             id = item.ownerId,
             "", "", "", "", "", LocalDate.now()
         )
@@ -64,13 +64,13 @@ class MainController(
                 item.id,
                 item.idCardNumber,
                 item.resourceURI,
-                u,
+                user,
                 item.itemName,
                 item.creationDate
             )
         )
 
-        return ResponseEntity<String>("${savedItem.id == null}", HttpStatus.OK)
+        return ResponseEntity<String>("${savedItem.id != null}", HttpStatus.OK)
     }
 
     @GetMapping("/items")
