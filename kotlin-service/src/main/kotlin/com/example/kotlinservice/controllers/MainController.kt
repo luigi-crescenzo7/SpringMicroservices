@@ -15,7 +15,6 @@ import org.slf4j.LoggerFactory
 
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.*
 import java.time.LocalDate
 
@@ -35,7 +34,6 @@ class MainController(
 
     val log: Logger = getLogger<MainController>()
     val mapper: ObjectMapper = ObjectMapper().registerKotlinModule().registerModule(JavaTimeModule())
-
 
     @GetMapping("/owner/{id}")
     fun fetch(@PathVariable id: String): List<VaultItem> {
@@ -61,14 +59,6 @@ class MainController(
             "", "", "", "", "", LocalDate.now()
         )
 
-        /*val savedItem = vaultItemRepository.save(
-            VaultItemTest(
-                resourceURI = item.vaultItem.resourceURI, idCardNumber = item.vaultItem.idCardNumber,
-                itemName = item.vaultItem.itemName, creationDate = item.vaultItem.creationDate,
-                owner = u
-            )
-        )
-*/
         val savedItem = vaultItemRepository.save(
             VaultItem(
                 item.id,
