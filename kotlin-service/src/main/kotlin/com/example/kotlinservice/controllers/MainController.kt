@@ -1,9 +1,13 @@
 package com.example.kotlinservice.controllers
 
 import com.example.kotlinservice.beans.User
+import com.example.kotlinservice.beans.VaultItemDTO
 import com.example.kotlinservice.beans.VaultItem
 import com.example.kotlinservice.repositories.UserRepository
 import com.example.kotlinservice.repositories.VaultItemRepository
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import lombok.extern.slf4j.Slf4j
 import org.bson.types.ObjectId
 import org.slf4j.Logger
@@ -11,14 +15,15 @@ import org.slf4j.LoggerFactory
 
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.*
+import java.time.LocalDate
 
 
 inline fun <reified T> getLogger(): Logger {
     return LoggerFactory.getLogger(T::class.java)
 }
 
-data class VaultItemDTO(val vaultItem: VaultItem, val ownerId: String)
 
 @RestController
 @Slf4j
@@ -29,6 +34,7 @@ class MainController(
 ) {
 
     val log: Logger = getLogger<MainController>()
+    val mapper: ObjectMapper = ObjectMapper().registerKotlinModule().registerModule(JavaTimeModule())
 
 
     @GetMapping("/owner/{id}")
@@ -45,16 +51,34 @@ class MainController(
 
     @PostMapping("/save-item")
     fun item(@RequestBody item: VaultItemDTO): ResponseEntity<String> {
-        log.info("Item received: $item")
+        //log.info("Item received: $string")
+        //val item = mapper.readValue(string, VaultItemDTO::class.java)
+        log.info("item: $item")
+        item.id = ObjectId().toString()
 
-        val savedItem = vaultItemRepository.save(
-            VaultItem(
-                resourceURI = item.vaultItem.resourceURI, idCardNumber = item.vaultItem.idCardNumber,
-                itemName = item.vaultItem.itemName, creationDate = item.vaultItem.creationDate,
-                ownerId = ObjectId(item.ownerId)
-            )
+        val u = User(
+            id = item.ownerId,
+            "", "", "", "", "", LocalDate.now()
         )
 
+        /*val savedItem = vaultItemRepository.save(
+            VaultItemTest(
+                resourceURI = item.vaultItem.resourceURI, idCardNumber = item.vaultItem.idCardNumber,
+                itemName = item.vaultItem.itemName, creationDate = item.vaultItem.creationDate,
+                owner = u
+            )
+        )
+*/
+        val savedItem = vaultItemRepository.save(
+            VaultItem(
+                item.id,
+                item.idCardNumber,
+                item.resourceURI,
+                u,
+                item.itemName,
+                item.creationDate
+            )
+        )
 
         return ResponseEntity<String>("${savedItem.id == null}", HttpStatus.OK)
     }
