@@ -53,7 +53,7 @@ public class MainController {
         if (!flag) return new ResponseEntity<>("item not saved", HttpStatus.BAD_REQUEST);
 
         log.info("Item received: " + item);
-        return new ResponseEntity<>("ok", HttpStatus.OK);
+        return new ResponseEntity<>("item saved", HttpStatus.OK);
     }
 
     @GetMapping("/item")
