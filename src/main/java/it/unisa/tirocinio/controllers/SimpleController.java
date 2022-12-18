@@ -46,7 +46,9 @@ public class SimpleController {
     public ResponseEntity<String> item(@ModelAttribute VaultItem item, BindingResult result) {
         if (result.hasErrors())
             return new ResponseEntity<>("Error mapping VaultItem object", HttpStatus.BAD_REQUEST);
+
         item.setOwnerId("63834344af957a1c25218b32");
+
         boolean flag = vaultService.saveItem(item);
         if (!flag) return new ResponseEntity<>("item not saved", HttpStatus.BAD_REQUEST);
 
