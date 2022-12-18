@@ -1,28 +1,63 @@
 package com.example.kotlinservice.beans
 
-
-import org.bson.types.ObjectId
-import org.springframework.data.mongodb.core.mapping.DBRef
+import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonProperty
+import lombok.Data
 import org.springframework.data.mongodb.core.mapping.Document
+import org.springframework.data.mongodb.core.mapping.DocumentReference
 import org.springframework.data.mongodb.core.mapping.Field
 import org.springframework.data.mongodb.core.mapping.MongoId
 import java.time.LocalDate
 
+@Data
 @Document("VaultItem")
-data class VaultItem(
+class VaultItem {
     @MongoId
     @Field
-    var id: String? = null,
+    @JsonProperty
+    var id: String? = null
+
     @Field
-    var resourceURI: String,
+    @JsonProperty
+    var idCardNumber: String? = null
+
     @Field
-    var idCardNumber: String,
+    @JsonProperty
+    var resourceURI: String? = null
+
+    @DocumentReference(collection = "User")
+    @Field("ownerId")
+    @JsonProperty(value = "ownerId")
+    var owner: User? = null
+
     @Field
-    var itemName: String,
+    @JsonProperty
+    var itemName: String? = null
+
     @Field
-    var creationDate: LocalDate,
-    // decidere se rimanre l'annotazione DBref.. problemi di conversione..
-    //@DBRef(db = "User")
-    @Field
-    var ownerId: ObjectId
-)
+    @JsonProperty
+    var creationDate: LocalDate? = null
+
+    constructor()
+
+    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
+    constructor(ownerId: String?) {
+        owner!!.id = ownerId!!
+    }
+
+    constructor(
+        id: String?,
+        idCardNumber: String?,
+        resourceURI: String?,
+        owner: User?,
+        itemName: String?,
+        creationDate: LocalDate?
+    ) {
+        this.id = id
+        this.idCardNumber = idCardNumber
+        this.resourceURI = resourceURI
+        this.owner = owner
+        this.itemName = itemName
+        this.creationDate = creationDate
+    }
+}
