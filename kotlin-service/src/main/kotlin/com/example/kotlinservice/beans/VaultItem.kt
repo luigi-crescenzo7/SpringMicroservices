@@ -3,6 +3,7 @@ package com.example.kotlinservice.beans
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 import lombok.Data
+import lombok.NoArgsConstructor
 import org.springframework.data.mongodb.core.mapping.Document
 import org.springframework.data.mongodb.core.mapping.DocumentReference
 import org.springframework.data.mongodb.core.mapping.Field
@@ -11,6 +12,7 @@ import java.time.LocalDate
 
 @Data
 @Document("VaultItem")
+@NoArgsConstructor
 class VaultItem {
     @MongoId
     @Field
@@ -18,8 +20,8 @@ class VaultItem {
     var id: String? = null
 
     @Field
-    @JsonProperty
-    var idCardNumber: String? = null
+    @field:JsonProperty
+    lateinit var idCardNumber: String
 
     @Field
     @JsonProperty
@@ -31,32 +33,31 @@ class VaultItem {
     var owner: User? = null
 
     @Field
-    @JsonProperty
-    var itemName: String? = null
+    @field:JsonProperty
+    lateinit var itemName: String
 
     @Field
     @JsonProperty
     var creationDate: LocalDate? = null
 
-    constructor()
 
-    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
-    constructor(ownerId: String?) {
-        owner!!.id = ownerId!!
-    }
+    /*    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
+        constructor(ownerId: String?) {
+            owner!!.id = ownerId!!
+        }*/
 
     constructor(
         id: String?,
-        idCardNumber: String?,
-        resourceURI: String?,
-        owner: User?,
-        itemName: String?,
-        creationDate: LocalDate?
+        idCardNumber: String,
+        resourceURI: String,
+        ownerId: String,
+        itemName: String,
+        creationDate: LocalDate
     ) {
         this.id = id
         this.idCardNumber = idCardNumber
         this.resourceURI = resourceURI
-        this.owner = owner
+        this.owner = User(ownerId)
         this.itemName = itemName
         this.creationDate = creationDate
     }

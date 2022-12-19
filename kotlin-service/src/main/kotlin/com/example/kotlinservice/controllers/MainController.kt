@@ -49,22 +49,15 @@ class MainController(
 
     @PostMapping("/save-item")
     fun item(@RequestBody item: VaultItemDTO): ResponseEntity<String> {
-        //log.info("Item received: $string")
-        //val item = mapper.readValue(string, VaultItemDTO::class.java)
         log.info("item: $item")
         item.id = ObjectId().toString()
-
-        val user = User(
-            id = item.ownerId,
-            "", "", "", "", "", LocalDate.now()
-        )
 
         val savedItem = vaultItemRepository.save(
             VaultItem(
                 item.id,
                 item.idCardNumber,
                 item.resourceURI,
-                user,
+                item.ownerId,
                 item.itemName,
                 item.creationDate
             )

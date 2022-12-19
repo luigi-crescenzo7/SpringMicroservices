@@ -22,4 +22,6 @@ data class User(
     var gender: String,
     @Field
     var dateOfBirth: LocalDate
-)
+) {
+    constructor(ownerId: String) : this(ownerId, "", "", "", "", "", LocalDate.now())
+}
