@@ -16,7 +16,6 @@ import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import java.time.LocalDate
 
 
 inline fun <reified T> getLogger(): Logger {
@@ -51,13 +50,14 @@ class MainController(
     fun item(@RequestBody item: VaultItemDTO): ResponseEntity<String> {
         log.info("item: $item")
         item.id = ObjectId().toString()
+        val user = User(item.ownerId)
 
         val savedItem = vaultItemRepository.save(
             VaultItem(
                 item.id,
                 item.idCardNumber,
                 item.resourceURI,
-                item.ownerId,
+                user,
                 item.itemName,
                 item.creationDate
             )
