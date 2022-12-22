@@ -53,7 +53,7 @@ public class FabricServiceImpl implements FabricService {
                 .secure(provider -> provider.sslContext(sslContext));
 
         log.info(FABRIC_URL);
-        String local = "https://localhost:8443/";
+        String local = "https://localhost:8447/";
 
         return WebClient.builder()
                 .clientConnector(new ReactorClientHttpConnector(httpClient))
