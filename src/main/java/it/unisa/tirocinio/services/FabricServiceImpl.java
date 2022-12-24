@@ -5,8 +5,11 @@ import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 import io.netty.resolver.DefaultAddressResolverGroup;
+import it.unisa.tirocinio.beans.IdCardItem;
+import it.unisa.tirocinio.beans.IdCardItemDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -32,6 +35,17 @@ public class FabricServiceImpl implements FabricService {
                 .uri("/api/contract/all").retrieve()
                 .bodyToMono(String.class).blockOptional();
 
+        return opt.orElse(null);
+    }
+
+    @Override
+    public String saveItem(IdCardItem item) {
+        WebClient client = httpsWebClient();
+        Optional<String> opt = client.post()
+                .uri("/api/contract/create")
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(new IdCardItemDTO(item))
+                .retrieve().bodyToMono(String.class).blockOptional();
         return opt.orElse(null);
     }
 
