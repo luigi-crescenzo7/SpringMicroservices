@@ -1,6 +1,7 @@
 package it.unisa.tirocinio.controllers;
 
 
+import it.unisa.tirocinio.beans.IdCardItem;
 import it.unisa.tirocinio.beans.VaultItem;
 import it.unisa.tirocinio.services.FabricService;
 import it.unisa.tirocinio.services.UserService;
@@ -13,6 +14,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 
 @Controller
@@ -78,6 +83,28 @@ public class MainController {
     @GetMapping(value = "/login")
     public String login() {
         return "login";
+    }
+
+    @GetMapping(value = "/vault-items")
+    public ResponseEntity<List<VaultItem>> items() {
+        List<VaultItem> items = vaultService.findAll();
+        return new ResponseEntity<>(Objects.requireNonNullElseGet(items, ArrayList::new), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/create-card")
+    public ResponseEntity<String> card() {
+        IdCardItem item = new IdCardItem();
+        item.setId("asset7766");
+        item.setName("itemName");
+        item.setSurname("itemSurname");
+        item.setOwnerId("ownerId1");
+        item.setAge(45);
+        String result = fabricService.saveItem(item);
+        if (result == null)
+            return new ResponseEntity<>("Error", HttpStatus.BAD_REQUEST);
+
+        log.info("Result: " + result);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping(value = "/users")
