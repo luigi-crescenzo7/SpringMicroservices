@@ -72,7 +72,7 @@ class MainController(
         return vaultItemRepository.findAll()
     }
 
-    @GetMapping("test")
+    @GetMapping("/test")
     @ResponseBody
     fun test(): ResponseEntity<String> {
         log.info("/test endpoint")
