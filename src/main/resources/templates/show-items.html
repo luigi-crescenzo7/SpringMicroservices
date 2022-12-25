@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        table, th, td {
+            border: 2px solid black;
+            border-collapse: collapse;
+        }
+    </style>
+</head>
+<body>
+<table>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Surname</th>
+        <th>Age</th>
+        <th>Owner ID</th>
+    </tr>
+    <tr th:each="item: ${items}">
+        <td th:text="${item.id}"></td>
+        <td th:text="${item.name}"></td>
+        <td th:text="${item.surname}"></td>
+        <td th:text="${item.age}"></td>
+        <td th:text="${item.ownerId}"></td>
+    </tr>
+</table>
+
+<!--<ul>
+    <li th:each="item: ${items}">
+        <p th:text="${item.id}"></p>
+        <p th:text="${item.name}"></p>
+        <p th:text="${item.surname}"></p>
+        <p th:text="${item.age}"></p>
+        <p th:text="${item.ownerId}"></p>
+    </li>
+</ul>-->
+</body>
+</html>
