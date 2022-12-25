@@ -7,7 +7,7 @@
 </head>
 <body>
 <!--/*@thymesVar id="VaultItem" type="it.unisa.tirocinio.beans.IdCardItem"*/-->
-<form method="post" action="#" th:action="@{/app/save-card-item}" th:object="${IdCardItem}">
+<form method="post" action="#" th:action="@{/card/save-card-item}" th:object="${IdCardItem}">
   <label>
     <input type="text" th:field="*{id}">
   </label>
