@@ -41,13 +41,13 @@ public class MainController {
         this.vaultService = vaultService;
     }
 
-    @GetMapping(value = "index")
+    @GetMapping(value = "/index")
     public String index(Model model) {
         model.addAttribute("attributo", "hooray!");
         return "index2";
     }
 
-    @PostMapping("/create-item")
+    @PostMapping("/save-vault-item")
     public ResponseEntity<String> item(@ModelAttribute VaultItem item, BindingResult result) {
         if (result.hasErrors())
             return new ResponseEntity<>("Error mapping VaultItem object", HttpStatus.BAD_REQUEST);
@@ -61,10 +61,16 @@ public class MainController {
         return new ResponseEntity<>("item saved", HttpStatus.OK);
     }
 
-    @GetMapping("/item")
+    @GetMapping("/vaultItem")
     public String itemPage(Model model) {
         model.addAttribute("VaultItem", new VaultItem());
-        return "create-item";
+        return "createVaultItemTemplate";
+    }
+
+    @GetMapping("/idCardItem")
+    public String cardPage(Model model) {
+        model.addAttribute("IdCardItem", new IdCardItem());
+        return "createCardTemplate";
     }
 
     @GetMapping(value = "/assets")
@@ -91,14 +97,11 @@ public class MainController {
         return new ResponseEntity<>(Objects.requireNonNullElseGet(items, ArrayList::new), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/create-card")
-    public ResponseEntity<String> card() {
-        IdCardItem item = new IdCardItem();
-        item.setId("asset7766");
-        item.setName("itemName");
-        item.setSurname("itemSurname");
+    @PostMapping(value = "/save-card-item")
+    public ResponseEntity<String> card(@ModelAttribute IdCardItem item, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) throw new RuntimeException();
+
         item.setOwnerId("ownerId1");
-        item.setAge(45);
         String result = fabricService.saveItem(item);
         if (result == null)
             return new ResponseEntity<>("Error", HttpStatus.BAD_REQUEST);
@@ -108,7 +111,6 @@ public class MainController {
     }
 
     @GetMapping(value = "/users")
-    @ResponseBody
     public ResponseEntity<String> users() {
         log.info("Call to /users endpoint");
         return new ResponseEntity<>(userService.getUsers(), HttpStatus.OK);

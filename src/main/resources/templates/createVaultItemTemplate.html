@@ -3,11 +3,11 @@
 <head>
 
     <meta charset="UTF-8">
-    <title>Item</title>
+    <title>VaultItem</title>
 </head>
 <body>
 <!--/*@thymesVar id="VaultItem" type="it.unisa.tirocinio.beans.VaultItem"*/-->
-<form method="post" action="#" th:action="@{/app/create-item}" th:object="${VaultItem}">
+<form method="post" action="#" th:action="@{/app/save-vault-item}" th:object="${VaultItem}">
     <label>
         <input type="text" th:field="*{itemName}">
     </label>

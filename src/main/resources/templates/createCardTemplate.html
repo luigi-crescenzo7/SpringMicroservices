@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+
+  <meta charset="UTF-8">
+  <title>Item</title>
+</head>
+<body>
+<!--/*@thymesVar id="VaultItem" type="it.unisa.tirocinio.beans.IdCardItem"*/-->
+<form method="post" action="#" th:action="@{/app/save-card-item}" th:object="${IdCardItem}">
+  <label>
+    <input type="text" th:field="*{id}">
+  </label>
+  <label>
+    <input type="text" th:field="*{name}">
+  </label>
+  <label>
+    <input type="text" th:field="*{surname}">
+  </label>
+  <label>
+    <input type="text" th:field="*{ownerId}">
+  </label>
+  <label>
+    <input type="text" th:field="*{age}">
+  </label>
+  <input type="submit" value="Send">
+</form>
+
+</body>
+</html>
