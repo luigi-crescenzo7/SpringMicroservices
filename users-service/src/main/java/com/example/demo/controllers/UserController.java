@@ -6,6 +6,7 @@ import com.example.demo.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -38,12 +39,15 @@ public class UserController {
         log.info("/users/name endpoint");
         return userRepository.findAllByName(name);
     }
-/*
-    @PostMapping("/register")
-    @ResponseBody
-    public ResponseEntity<User> register(User) {
 
-    }*/
+    @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> register(@RequestBody User user) {
+        log.info("User received " + user);
+        user.setPassword(encoder.encode(user.getPassword()));
+        User savedUser = userRepository.save(user);
+        log.info("saved user: " + user);
+        return new ResponseEntity<>("UserId:" + savedUser.getId(), HttpStatus.OK);
+    }
 
     @PostMapping("/login")
     public ResponseEntity<String> authUser(@RequestParam(name = "email") String email,
