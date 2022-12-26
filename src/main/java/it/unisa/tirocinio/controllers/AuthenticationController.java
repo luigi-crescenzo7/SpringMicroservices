@@ -1,16 +1,18 @@
 package it.unisa.tirocinio.controllers;
 
 
+import it.unisa.tirocinio.beans.User;
 import it.unisa.tirocinio.services.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 @Controller
-@RequestMapping("/auth")
+@RequestMapping("/app/auth")
 @Slf4j
 public class AuthenticationController {
 
@@ -20,7 +22,22 @@ public class AuthenticationController {
         this.userService = userService;
     }
 
-    @PostMapping("login")
+
+    @PostMapping(value = "/register")
+    public String register(@ModelAttribute User user, Model model, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) throw new RuntimeException();
+
+        log.info("user " + user);
+        boolean flag = userService.saveUser(user);
+
+        if (!flag)
+            throw new ResponseStatusException(HttpStatusCode.valueOf(500), "user not saved");
+
+        model.addAttribute("user", user);
+        return "login";
+    }
+
+    @PostMapping("/login")
     public String login(@RequestParam(name = "email") String email,
                         @RequestParam(name = "password") String password,
                         Model model) {
