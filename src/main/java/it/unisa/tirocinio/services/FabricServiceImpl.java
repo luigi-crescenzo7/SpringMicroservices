@@ -1,7 +1,6 @@
 package it.unisa.tirocinio.services;
 
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.netty.handler.ssl.SslContext;
@@ -11,10 +10,13 @@ import io.netty.resolver.DefaultAddressResolverGroup;
 import it.unisa.tirocinio.beans.IdCardItem;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.server.ResponseStatusException;
 import reactor.netty.http.client.HttpClient;
 
 import javax.net.ssl.SSLException;
@@ -34,33 +36,41 @@ public class FabricServiceImpl implements FabricService {
     private static final String ASSETS_BY_OWNER_ID = "/api/contract/ownerId";
 
     @Override
-    public String findAllAssets() {
+    public List<IdCardItem> findAllAssets() {
         log.info("Querying fabric service...");
 
         WebClient client = httpsWebClient();
-        Optional<String> opt = client.get()
+        Optional<ResponseEntity<List<IdCardItem>>> opt = client.get()
                 .uri(ALL_URI).retrieve()
-                .bodyToMono(String.class).blockOptional();
+                .toEntityList(IdCardItem.class).blockOptional();
 
-        return opt.orElse(null);
+        ResponseEntity<List<IdCardItem>> response = opt.orElseThrow();
+
+        if (!response.hasBody() || response.getStatusCode() != HttpStatus.OK)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+
+        return response.getBody();
+
     }
 
     @Override
     public List<IdCardItem> findAssetsByOwnerId(String ownerId) {
         log.info("find assets by owner id");
         JsonNode node = mapper.createObjectNode().put("ownerId", ownerId);
+
         WebClient client = httpsWebClient();
-        Optional<String> optResult = client.post().uri(ASSETS_BY_OWNER_ID)
-                .bodyValue(node).retrieve().bodyToMono(String.class).blockOptional();
-        String result = optResult.orElseThrow();
 
-        log.info("Result: " + result);
+        Optional<ResponseEntity<List<IdCardItem>>> optResult =
+                client.post().uri(ASSETS_BY_OWNER_ID)
+                        .bodyValue(node).retrieve()
+                        .toEntityList(IdCardItem.class).blockOptional();
 
-        try {
-            return mapper.readerForListOf(IdCardItem.class).readValue(result);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
+        ResponseEntity<List<IdCardItem>> response = optResult.orElseThrow();
+
+        if (!response.hasBody() || response.getStatusCode() != HttpStatus.OK)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+
+        return response.getBody();
     }
 
     @Override

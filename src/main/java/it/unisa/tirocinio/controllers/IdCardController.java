@@ -34,7 +34,7 @@ public class IdCardController {
     @GetMapping(value = "/assets")
     public String assets(Model model) {
         log.info("/assets");
-        String result = fabricService.findAllAssets();
+        List<IdCardItem> result = fabricService.findAllAssets();
         model.addAttribute("assets", result);
         return "assetsTemplate";
     }
