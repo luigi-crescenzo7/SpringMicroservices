@@ -17,9 +17,9 @@ public class UserServiceImpl implements UserService {
 
     @Value("${app.users-rest-url}")
     private String URL;
-    private String URI = "/all";
+    private final String ALL_URI = "/all";
 
-    private String LOGIN = "/login";
+    private final String LOGIN_URI = "/login";
 
     @Override
     public String getUsers() {
@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
         final WebClient client = buildWebClient();
 
         Optional<String> opt = client.get()
-                .uri(URI)
+                .uri(ALL_URI)
                 .retrieve()
                 .bodyToMono(String.class).blockOptional();
 
@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
         log.info("Querying microservice endpoint...");
         final WebClient client = buildWebClient();
 
-        Optional<String> opt = client.post().uri(LOGIN)
+        Optional<String> opt = client.post().uri(LOGIN_URI)
                 .body(BodyInserters.fromFormData("email", email).with("passwordHash", password))
                 .retrieve()
                 .bodyToMono(String.class).blockOptional();
@@ -49,6 +49,6 @@ public class UserServiceImpl implements UserService {
 
 
     private WebClient buildWebClient() {
-        return WebClient.builder().baseUrl(URL + "users/").build();
+        return WebClient.builder().baseUrl(URL + "user-service").build();
     }
 }
