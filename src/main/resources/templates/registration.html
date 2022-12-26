@@ -1,37 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Registration</title>
 </head>
 <body>
-<form method="post">
+<!--/*@thymesVar id="User" type="it.unisa.tirocinio.beans.User"*/-->
+<form method="post" action="#" th:action="@{/app/auth/register}" th:object="${User}">
     <label title="name">
         Nome:
-        <input name="name" type="text">
+        <input name="name" type="text" th:field="*{name}">
     </label>
 
     <label title="surname">
         Cognome:
-        <input name="surname" type="text">
+        <input name="surname" type="text" th:field="*{surname}">
     </label>
 
     <label title="email">
         Email:
-        <input name="email" type="email">
+        <input name="email" type="email" th:field="*{email}">
     </label>
 
     <label title="password">
         Password:
-        <input name="password" type="password">
+        <input name="password" type="password" th:field="*{password}">
     </label>
 
     <label title="birthDate">
         Data di nascita:
-        <input name="birthDate" type="date">
+        <input name="birthDate" type="date" th:field="*{dateOfBirth}">
     </label>
-    <!-- CAMBIARE -->
-    <button formaction="https://test.com/auth/register">Submit</button>
+
+    <label title="gender">
+        Genere:
+        <input name="gender" type="text" th:field="*{gender}">
+    </label>
+
+    <input type="submit" value="Send">
 </form>
 </body>
 </html>
