@@ -1,6 +1,7 @@
 package it.unisa.tirocinio.services;
 
 
+import it.unisa.tirocinio.beans.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ public class UserServiceImpl implements UserService {
     @Value("${app.users-rest-url}")
     private String URL;
     private final String ALL_URI = "/all";
+    private final String SAVE_URI = "/register";
 
     private final String LOGIN_URI = "/login";
 
@@ -35,9 +37,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean saveUser(User user) {
+        WebClient client = buildWebClient();
+        Optional<String> optResult = client.post().uri(SAVE_URI)
+                .bodyValue(user).retrieve()
+                .bodyToMono(String.class).blockOptional();
+
+        String saved = optResult.orElseThrow();
+        return saved.contains("UserId");
+    }
+
+    @Override
     public boolean login(String email, String password) {
         log.info("Querying microservice endpoint...");
-        final WebClient client = buildWebClient();
+        WebClient client = buildWebClient();
 
         Optional<String> opt = client.post().uri(LOGIN_URI)
                 .body(BodyInserters.fromFormData("email", email).with("passwordHash", password))
