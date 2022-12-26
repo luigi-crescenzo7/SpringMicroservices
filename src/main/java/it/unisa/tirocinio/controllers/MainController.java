@@ -1,6 +1,7 @@
 package it.unisa.tirocinio.controllers;
 
 
+import it.unisa.tirocinio.beans.User;
 import it.unisa.tirocinio.services.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -29,7 +30,8 @@ public class MainController {
     }
 
     @GetMapping(value = "/register")
-    public String register() {
+    public String register(Model model) {
+        model.addAttribute("User", new User());
         return "registration";
     }
 
