@@ -15,13 +15,10 @@ public interface UserRepository extends MongoRepository<User, String> {
     @Query("{name: ?0}")
     <S extends User> List<S> findAllByName(@Param("name") String name);
 
-    @Override
-    <S extends User> S insert(S entity);
 
     @Query("{email:  '?0', password:  '?1'}")
     <S extends User> Optional<S> findByEmailAndPassword(@Param("email") String email, @Param("password") String password);
 
-    //change query to fetch only the password field
     @Query("{email: '?0'}{id: 0, email: 1, password: 1}")
     <S extends User> Optional<S> findUserByEmail(@Param("email") String email);
 }
