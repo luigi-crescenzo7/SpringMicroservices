@@ -45,12 +45,11 @@ public class FabricServiceImpl implements FabricService {
                 .toEntityList(IdCardItem.class).blockOptional();
 
         ResponseEntity<List<IdCardItem>> response = opt.orElseThrow();
-
-        if (!response.hasBody() || response.getStatusCode() != HttpStatus.OK)
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        log.info("status code : " + response.getStatusCode());
+        if (!response.hasBody() || !response.getStatusCode().is2xxSuccessful())
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error code: " + response.getStatusCode());
 
         return response.getBody();
-
     }
 
     @Override
@@ -66,9 +65,10 @@ public class FabricServiceImpl implements FabricService {
                         .toEntityList(IdCardItem.class).blockOptional();
 
         ResponseEntity<List<IdCardItem>> response = optResult.orElseThrow();
+        log.info("status code : " + response.getStatusCode());
 
-        if (!response.hasBody() || response.getStatusCode() != HttpStatus.OK)
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        if (!response.hasBody() || !response.getStatusCode().is2xxSuccessful())
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Status code: " + response.getStatusCode());
 
         return response.getBody();
     }
