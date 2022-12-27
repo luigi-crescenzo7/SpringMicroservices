@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
 <p th:text="${auth}"></p>
-<form method="post" action="/auth/login">
+<form method="post" th:action="@{/app/auth/login}">
     <label title="email">
         <input name="email" type="text">
     </label>
