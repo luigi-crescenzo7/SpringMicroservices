@@ -17,8 +17,8 @@ spec:
     spec:
       containers:
         - name: users-container
-          #image: users-service-image:latest
-          image: gigi7/users-native-image:latest
+          image: users-service-image:latest
+          #image: gigi7/users-native-image:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8081
