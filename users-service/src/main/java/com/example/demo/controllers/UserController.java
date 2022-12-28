@@ -4,10 +4,8 @@ package com.example.demo.controllers;
 import com.example.demo.beans.User;
 import com.example.demo.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.dao.DuplicateKeyException;
+import org.springframework.http.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -44,7 +42,12 @@ public class UserController {
     public ResponseEntity<String> register(@RequestBody User user) {
         log.info("User received " + user);
         user.setPassword(encoder.encode(user.getPassword()));
-        User savedUser = userRepository.save(user);
+        User savedUser;
+        try {
+            savedUser = userRepository.save(user);
+        } catch (DuplicateKeyException e) {
+            return new ResponseEntity<>("duplicate key email", HttpStatus.SERVICE_UNAVAILABLE);
+        }
         log.info("saved user: " + user);
         return new ResponseEntity<>("UserId:" + savedUser.getId(), HttpStatus.OK);
     }
