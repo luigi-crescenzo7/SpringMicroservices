@@ -8,7 +8,6 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,16 +26,18 @@ public class UserController {
     }
 
     @GetMapping("/all")
-    public List<User> getUsers() {
+    public ResponseEntity<List<User>> getUsers() {
         log.info("/users/all endpoint");
-        return userRepository.findAll();
+        return new ResponseEntity<>(userRepository.findAll(), HttpStatus.OK);
     }
 
+    /* inutile
     @GetMapping("/name")
-    public List<User> getUsersByName(@RequestParam(name = "name") String name) {
+    public ResponseEntity<List<User>> getUsersByName(@RequestParam(name = "name") String name) {
         log.info("/users/name endpoint");
+        List<User> user
         return userRepository.findAllByName(name);
-    }
+    }*/
 
     @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> register(@RequestBody User user) {
@@ -46,7 +47,7 @@ public class UserController {
         try {
             savedUser = userRepository.save(user);
         } catch (DuplicateKeyException e) {
-            return new ResponseEntity<>("duplicate key email", HttpStatus.SERVICE_UNAVAILABLE);
+            return new ResponseEntity<>("duplicate key email", HttpStatus.BAD_REQUEST);
         }
         log.info("saved user: " + user);
         return new ResponseEntity<>("UserId:" + savedUser.getId(), HttpStatus.OK);
@@ -54,15 +55,15 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<String> authUser(@RequestParam(name = "email") String email,
-                                           @RequestParam(name = "passwordHash") String passwordHash) {
+                                           @RequestParam(name = "password") String password) {
 
         Optional<User> optUser = userRepository.findUserByEmail(email);
 
-        User savedUser = optUser
-                .orElseThrow(() -> new ResponseStatusException(HttpStatusCode.valueOf(200),
-                        String.format("User with email %s does not exist", email)));
+        if(optUser.isEmpty()) return new ResponseEntity<>("user does not exist", HttpStatus.BAD_REQUEST);
 
-        if (!encoder.matches(passwordHash, savedUser.getPassword()))
+        User savedUser = optUser.get();
+
+        if (!encoder.matches(password, savedUser.getPassword()))
             return new ResponseEntity<>("not authorized", HttpStatus.OK);
 
         log.info("User is present");
