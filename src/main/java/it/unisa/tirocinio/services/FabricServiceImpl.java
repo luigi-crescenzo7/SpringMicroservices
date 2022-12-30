@@ -27,7 +27,12 @@ import java.util.Optional;
 @Service
 @Slf4j
 public class FabricServiceImpl implements FabricService {
-    private final static ObjectMapper mapper = new ObjectMapper();
+
+    private final ObjectMapper mapper;
+
+    public FabricServiceImpl(final ObjectMapper beanMapper) {
+        this.mapper = beanMapper;
+    }
 
     @Value("${app.fabric-rest-url}")
     private String FABRIC_ENDPOINT;
