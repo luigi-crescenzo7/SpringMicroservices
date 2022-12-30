@@ -1,29 +1,46 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-
-  <meta charset="UTF-8">
-  <title>Item</title>
+	<meta charset="UTF-8">
+	<title>Item</title>
 </head>
 <body>
 <!--/*@thymesVar id="VaultItem" type="it.unisa.tirocinio.beans.IdCardItem"*/-->
 <form method="post" action="#" th:action="@{/card/save-card-item}" th:object="${IdCardItem}">
-  <label>
-    <input type="text" th:field="*{id}">
-  </label>
-  <label>
-    <input type="text" th:field="*{name}">
-  </label>
-  <label>
-    <input type="text" th:field="*{surname}">
-  </label>
-  <label>
-    <input type="text" th:field="*{ownerId}">
-  </label>
-  <label>
-    <input type="text" th:field="*{age}">
-  </label>
-  <input type="submit" value="Send">
+	<label>
+		<input type="text" th:field="*{id}">
+	</label>
+	<label>
+		<input type="text" th:field="*{name}">
+	</label>
+	<label>
+		<input type="text" th:field="*{surname}">
+	</label>
+	<label>
+		<input type="text" th:field="*{ownerId}">
+	</label>
+	<label>
+		<input type="text" th:field="*{cardNumber}">
+	</label>
+	<label>
+		<input type="text" th:field="*{sex}">
+	</label>
+	<label>
+		<input type="date" th:field="*{dateOfBirth}">
+	</label>
+	<label>
+		<input type="text" th:field="*{placeOfBirth}">
+	</label>
+	<label>
+		<input type="text" th:field="*{nationality}">
+	</label>
+	<label>
+		<input type="date" th:field="*{expiryDate}">
+	</label>
+	<label>
+		<input type="text" th:field="*{fiscalCode}">
+	</label>
+	<input type="submit" value="Send">
 </form>
 
 </body>
