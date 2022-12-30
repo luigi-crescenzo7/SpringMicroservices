@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -47,8 +46,7 @@ public class IdCardController {
     }
 
     @PostMapping(value = "/save-card-item")
-    public ResponseEntity<String> card(@ModelAttribute IdCardItem item, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) throw new RuntimeException();
+    public ResponseEntity<String> card(@ModelAttribute IdCardItem item) {
 
         item.setOwnerId("ownerId1");
         String result = fabricService.saveItem(item);
