@@ -1,11 +1,14 @@
 package it.unisa.tirocinio.beans;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
@@ -23,7 +26,27 @@ public class IdCardItem {
     private String surname;
 
     @JsonProperty
-    private Integer age;
+    private String cardNumber;
+
+    @JsonProperty
+    private String sex;
+
+    @JsonProperty
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    private LocalDate dateOfBirth;
+
+    @JsonProperty
+    private String placeOfBirth;
+
+    @JsonProperty
+    private String nationality;
+
+    @JsonProperty
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    private LocalDate expiryDate;
+
+    @JsonProperty
+    private String fiscalCode;
 
     @JsonProperty
     private String ownerId;
