@@ -10,5 +10,5 @@ public interface FabricService {
 
     List<IdCardItem> findAssetsByOwnerId(String ownerId);
 
-    String saveItem(IdCardItem item);
+    IdCardItem saveItem(IdCardItem item);
 }
