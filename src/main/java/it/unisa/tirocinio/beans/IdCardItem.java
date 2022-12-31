@@ -16,7 +16,7 @@ import java.time.LocalDate;
 @JsonDeserialize(using = IdCardItemDeserializer.class)
 public class IdCardItem {
 
-    @JsonProperty(value = "key")
+    @JsonProperty(value = "key", access = JsonProperty.Access.WRITE_ONLY)
     private String id;
 
     @JsonProperty
