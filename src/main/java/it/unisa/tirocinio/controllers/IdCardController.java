@@ -49,11 +49,11 @@ public class IdCardController {
     public ResponseEntity<String> card(@ModelAttribute IdCardItem item) {
 
         item.setOwnerId("ownerId1");
-        String result = fabricService.saveItem(item);
+        IdCardItem result = fabricService.saveItem(item);
         if (result == null)
-            return new ResponseEntity<>("Error", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Error saving item", HttpStatus.BAD_REQUEST);
 
         log.info("Result: " + result);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return new ResponseEntity<>("Saved item: "+result.getId(), HttpStatus.OK);
     }
 }
