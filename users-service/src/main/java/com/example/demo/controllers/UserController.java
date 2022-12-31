@@ -64,7 +64,7 @@ public class UserController {
         User savedUser = optUser.get();
 
         if (!encoder.matches(password, savedUser.getPassword()))
-            return new ResponseEntity<>("not authorized", HttpStatus.OK);
+            return new ResponseEntity<>("User "+savedUser.getEmail()+" not authorized", HttpStatus.UNAUTHORIZED);
 
         log.info("User is present");
         return new ResponseEntity<>("authorized", HttpStatus.OK);
