@@ -4,6 +4,7 @@ package it.unisa.tirocinio.services;
 import it.unisa.tirocinio.beans.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -12,7 +13,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import java.util.Objects;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -29,29 +30,30 @@ public class UserServiceImpl implements UserService {
     private final String LOGIN_URI = "/login";
 
     @Override
-    public String getUsers() {
+    public List<User> findAll() {
         log.info("Querying microservice endpoint...");
         final WebClient client = buildWebClient();
 
-        Optional<String> opt = client.get()
+        Optional<ResponseEntity<List<User>>> opt = client.get()
                 .uri(ALL_URI)
-                .retrieve()
-                .bodyToMono(String.class).blockOptional();
+                .retrieve().onStatus(HttpStatusCode::isError, clientResponse ->
+                        clientResponse.toEntity(String.class).map(CustomResponseException::new))
+                .toEntityList(User.class).blockOptional();
 
-        return opt.orElse(null);
+        return opt.map(HttpEntity::getBody).orElseThrow();
     }
 
     @Override
     public boolean saveUser(User user) {
-        Optional<ResponseEntity<String>> optResult;
+        Optional<String> optResult;
         WebClient client = buildWebClient();
         optResult = client.post().uri(SAVE_URI)
-                .bodyValue(user).retrieve().onStatus(HttpStatusCode::is4xxClientError,
-                        response -> response.toEntity(String.class).map(CustomResponseException::new))
-                .toEntity(String.class)
+                .bodyValue(user).retrieve().onStatus(HttpStatusCode::isError, clientResponse ->
+                        clientResponse.toEntity(String.class).map(CustomResponseException::new))
+                .bodyToMono(String.class)
                 .blockOptional();
 
-        return optResult.map(response -> Objects.requireNonNull(response.getBody()).contains("UserId")).orElseThrow();
+        return optResult.map(saveResponse -> saveResponse.contains("UserId")).orElseThrow();
     }
 
     @Override
@@ -59,20 +61,18 @@ public class UserServiceImpl implements UserService {
         log.info("Querying microservice endpoint...");
         WebClient client = buildWebClient();
 
-        //rename "passwordHash" attribute
         MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
         map.add("email", email);
         map.add("password", password);
 
-        Optional<ResponseEntity<String>> opt = client.post().uri(LOGIN_URI)
+        Optional<String> opt = client.post().uri(LOGIN_URI)
                 .body(BodyInserters.fromFormData(map))
-                .retrieve().onStatus(HttpStatusCode::is4xxClientError,
-                        clientResponse -> clientResponse.toEntity(String.class).map(CustomResponseException::new))
-                .toEntity(String.class)
+                .retrieve().onStatus(HttpStatusCode::isError, clientResponse ->
+                        clientResponse.toEntity(String.class).map(CustomResponseException::new))
+                .bodyToMono(String.class)
                 .blockOptional();
 
-        return opt.map(response -> Objects.requireNonNull(response.getBody())
-                .equalsIgnoreCase("authorized"))
+        return opt.map(loginResult -> loginResult.equalsIgnoreCase("authorized"))
                 .orElseThrow(() -> new RuntimeException("user not authorized"));
     }
 
