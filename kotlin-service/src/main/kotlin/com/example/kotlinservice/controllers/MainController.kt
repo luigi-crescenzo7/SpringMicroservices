@@ -6,8 +6,6 @@ import com.example.kotlinservice.beans.VaultItem
 import com.example.kotlinservice.repositories.UserRepository
 import com.example.kotlinservice.repositories.VaultItemRepository
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import lombok.extern.slf4j.Slf4j
 import org.bson.types.ObjectId
 import org.slf4j.Logger
@@ -28,11 +26,11 @@ inline fun <reified T> getLogger(): Logger {
 @RequestMapping("/kotlin")
 class MainController(
     private val repository: UserRepository,
-    private val vaultItemRepository: VaultItemRepository
+    private val vaultItemRepository: VaultItemRepository,
+    private val mapper: ObjectMapper
 ) {
 
     val log: Logger = getLogger<MainController>()
-    val mapper: ObjectMapper = ObjectMapper().registerKotlinModule().registerModule(JavaTimeModule())
 
     @GetMapping("/owner/{id}")
     fun fetch(@PathVariable id: String): List<VaultItem> {
