@@ -20,6 +20,10 @@ spec:
           image: tirocinio-web-app-image:latest
           imagePullPolicy: IfNotPresent
           env:
+            - name: VAULTITEMS_SERVICE_URL
+              value: "http://kotlin-service:8082/"
+            - name: VAULTITEMS_SERVICE_PORT
+              value: "8082"
             - name: USERS_REST_URL
               value: "http://users-rest:8081/"
             - name: USERS_REST_PORT
