@@ -26,16 +26,14 @@ import java.util.Optional;
 public class FabricServiceImpl implements FabricService {
 
     private final ObjectMapper mapper;
-
-    public FabricServiceImpl(final ObjectMapper beanMapper) {
-        this.mapper = beanMapper;
-    }
-
     @Value("${app.fabric-rest-url}")
     private String FABRIC_ENDPOINT;
     private static final String ALL_URI = "/api/contract/all";
     private static final String SAVE_URI = "/api/contract/save";
     private static final String ASSETS_BY_OWNER_ID = "/api/contract/ownerId";
+    public FabricServiceImpl(final ObjectMapper beanMapper) {
+        this.mapper = beanMapper;
+    }
 
     @Override
     public List<IdCardItem> findAllAssets() {
