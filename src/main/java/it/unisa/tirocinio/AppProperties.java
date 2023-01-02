@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 @Component
 @ConfigurationProperties(prefix = "app")
 public class AppProperties {
+    String vaultItemsServiceUrl;
+    String vaultItemsServicePort;
     String usersRestUrl;
     String usersRestPort;
 
