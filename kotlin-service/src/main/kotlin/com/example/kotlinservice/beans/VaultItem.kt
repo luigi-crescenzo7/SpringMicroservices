@@ -1,5 +1,6 @@
 package com.example.kotlinservice.beans
 
+import com.fasterxml.jackson.annotation.JsonFormat
 import com.fasterxml.jackson.annotation.JsonProperty
 import lombok.Data
 import lombok.NoArgsConstructor
@@ -31,6 +32,7 @@ class VaultItem(
 
     @Field
     @field:JsonProperty
+    @field:JsonFormat(shape = JsonFormat.Shape.STRING)
     var creationDate: LocalDate? = creationDate
 
 

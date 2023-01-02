@@ -1,6 +1,7 @@
 package it.unisa.tirocinio.beans;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,5 +20,6 @@ public class VaultItem {
     private String resourceURI;
     private String ownerId;
     private String itemName;
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private LocalDate creationDate;
 }

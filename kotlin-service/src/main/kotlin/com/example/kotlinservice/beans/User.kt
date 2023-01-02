@@ -1,5 +1,6 @@
 package com.example.kotlinservice.beans
 
+import com.fasterxml.jackson.annotation.JsonFormat
 import org.springframework.data.mongodb.core.mapping.Document
 import org.springframework.data.mongodb.core.mapping.Field
 import org.springframework.data.mongodb.core.mapping.MongoId
@@ -21,6 +22,7 @@ data class User(
     @Field
     var gender: String,
     @Field
+    @field:JsonFormat(shape = JsonFormat.Shape.STRING)
     var dateOfBirth: LocalDate
 ) {
     constructor(ownerId: String) : this(ownerId, "", "", "", "", "", LocalDate.now())
