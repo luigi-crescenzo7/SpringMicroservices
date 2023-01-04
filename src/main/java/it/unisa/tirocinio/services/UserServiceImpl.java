@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean login(String email, String password) {
+    public String login(String email, String password) {
         log.info("Querying microservice endpoint...");
         WebClient client = buildWebClient();
 
@@ -65,15 +65,18 @@ public class UserServiceImpl implements UserService {
         map.add("email", email);
         map.add("password", password);
 
-        Optional<String> opt = client.post().uri(LOGIN_URI)
+        Optional<ResponseEntity<String>> opt = client.post().uri(LOGIN_URI)
                 .body(BodyInserters.fromFormData(map))
                 .retrieve().onStatus(HttpStatusCode::isError, clientResponse ->
                         clientResponse.toEntity(String.class).map(CustomResponseException::new))
-                .bodyToMono(String.class)
-                .blockOptional();
+                .toEntity(String.class).blockOptional();
 
-        return opt.map(loginResult -> loginResult.equalsIgnoreCase("authorized"))
-                .orElseThrow(() -> new RuntimeException("user not authorized"));
+        String result = opt.map(HttpEntity::getBody).orElse("");
+
+        if (result.contains("not authorized"))
+            throw new RuntimeException("not authorized");
+
+        return result.substring(result.indexOf(":") + 1);
     }
 
 

@@ -9,5 +9,5 @@ public interface UserService {
 
     boolean saveUser(User user);
 
-    boolean login(String email, String password);
+    String login(String email, String password);
 }
