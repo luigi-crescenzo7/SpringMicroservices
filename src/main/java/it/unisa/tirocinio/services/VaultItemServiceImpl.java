@@ -23,6 +23,7 @@ public class VaultItemServiceImpl implements VaultItemService {
     private String ENDPOINT;
     private final static String CREATE_URI = "/save-item";
     private final static String ALL_URI = "/items";
+    private final static String FIND_BY_ID_URI = "/ownerId";
 
     @Override
     public boolean saveItem(VaultItem item) {
@@ -49,8 +50,21 @@ public class VaultItemServiceImpl implements VaultItemService {
         return opt.map(HttpEntity::getBody).orElseThrow();
     }
 
+    @Override
+    public List<VaultItem> findAllById(String ownerId) {
+        WebClient client = httpWebClient();
+
+        Optional<ResponseEntity<List<VaultItem>>> opt = client.post()
+                .uri(FIND_BY_ID_URI).bodyValue(ownerId)
+                .retrieve().onStatus(HttpStatusCode::isError, clientResponse ->
+                        clientResponse.toEntity(String.class).map(CustomResponseException::new))
+                .toEntityList(VaultItem.class).blockOptional();
+
+        return opt.map(HttpEntity::getBody).orElseThrow();
+    }
+
 
     private WebClient httpWebClient() {
-        return WebClient.builder().baseUrl(ENDPOINT + "kotlin/").build();
+        return WebClient.builder().baseUrl(ENDPOINT + "kotlin").build();
     }
 }
