@@ -32,10 +32,10 @@ class MainController(
 
     val log: Logger = getLogger<MainController>()
 
-    @GetMapping("/owner/{id}")
-    fun fetch(@PathVariable id: String): List<VaultItem> {
-        log.info("Owner Id: $id")
-        return vaultItemRepository.findAllByOwnerId(id)
+    @PostMapping("/ownerId")
+    fun fetch(@RequestBody ownerId: String): ResponseEntity<List<VaultItem>> {
+        val items = vaultItemRepository.findAllByOwnerId(ObjectId(ownerId))
+        return ResponseEntity(items, HttpStatus.OK)
     }
 
     @GetMapping("/users")
@@ -47,12 +47,11 @@ class MainController(
     @PostMapping("/save-item")
     fun item(@RequestBody item: VaultItemDTO): ResponseEntity<String> {
         log.info("item: $item")
-        item.id = ObjectId().toString()
         val user = User(item.ownerId)
 
-        val savedItem = vaultItemRepository.save(
+        val savedItem = vaultItemRepository.insert(
             VaultItem(
-                item.id,
+                ObjectId().toString(),
                 item.idCardNumber,
                 item.resourceURI,
                 user,
