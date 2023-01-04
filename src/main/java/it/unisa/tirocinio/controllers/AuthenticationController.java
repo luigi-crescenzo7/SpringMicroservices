@@ -3,6 +3,7 @@ package it.unisa.tirocinio.controllers;
 
 import it.unisa.tirocinio.beans.User;
 import it.unisa.tirocinio.services.UserService;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -44,11 +45,14 @@ public class AuthenticationController {
     @PostMapping("/login")
     public String login(@RequestParam(name = "email") String email,
                         @RequestParam(name = "password") String password,
-                        Model model) {
+                        Model model, HttpSession session) {
 
         System.out.println(email + "  " + password);
-        boolean flag = userService.login(email, password);
+        String userId = userService.login(email, password);
+        boolean flag = userId != null;
         if (flag) {
+            log.info("User id: " + userId);
+            session.setAttribute("user", userId);
             model.addAttribute("auth", "true");
         } else {
             model.addAttribute("auth", "false");
