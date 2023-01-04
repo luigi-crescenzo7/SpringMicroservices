@@ -26,6 +26,11 @@ class MongoConfig {
         return MongoClients.create(mongoDbUri)
     }
 
+    @Bean
+    fun mongoCustomConversions() : MongoCustomConversions {
+        return MongoCustomConversions(listOf(VaultItemReadConverter()))
+    }
+
 
     fun configureConverters(converterConfigurationAdapter: MongoCustomConversions.MongoConverterConfigurationAdapter) {
         //converterConfigurationAdapter.registerConverter(VaultItemWriteConverter())
