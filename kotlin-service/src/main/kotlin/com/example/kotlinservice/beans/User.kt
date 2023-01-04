@@ -3,27 +3,29 @@ package com.example.kotlinservice.beans
 import com.fasterxml.jackson.annotation.JsonFormat
 import org.springframework.data.mongodb.core.mapping.Document
 import org.springframework.data.mongodb.core.mapping.Field
+import org.springframework.data.mongodb.core.mapping.FieldType
 import org.springframework.data.mongodb.core.mapping.MongoId
 import java.time.LocalDate
 
 
 @Document("User")
 data class User(
-    @MongoId @Field
-    var id: String,
+    @MongoId(FieldType.OBJECT_ID)
     @Field
-    var name: String,
+    var id: String?,
     @Field
-    var surname: String,
+    var name: String?,
     @Field
-    var email: String,
+    var surname: String?,
     @Field
-    var password: String,
+    var email: String?,
     @Field
-    var gender: String,
+    var password: String?,
+    @Field
+    var sex: String?,
     @Field
     @field:JsonFormat(shape = JsonFormat.Shape.STRING)
-    var dateOfBirth: LocalDate
+    var dateOfBirth: LocalDate?
 ) {
-    constructor(ownerId: String) : this(ownerId, "", "", "", "", "", LocalDate.now())
+    constructor(ownerId: String) : this(ownerId, null, null, null, null, null, null)
 }

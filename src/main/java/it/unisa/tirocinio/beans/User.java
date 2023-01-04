@@ -16,7 +16,7 @@ public class User {
     private String name;
     private String surname;
     private String email;
-    private String gender;
+    private String sex;
     private String password;
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private LocalDate dateOfBirth;

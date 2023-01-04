@@ -1,6 +1,7 @@
 package com.example.demo.beans;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -22,9 +23,10 @@ public class User {
     @Field
     private String email;
     @Field
-    private String gender;
+    private String sex;
     @Field
     private String password;
     @Field
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private LocalDate dateOfBirth;
 }
