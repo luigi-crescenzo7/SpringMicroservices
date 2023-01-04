@@ -31,14 +31,6 @@ public class UserController {
         return new ResponseEntity<>(userRepository.findAll(), HttpStatus.OK);
     }
 
-    /* inutile
-    @GetMapping("/name")
-    public ResponseEntity<List<User>> getUsersByName(@RequestParam(name = "name") String name) {
-        log.info("/users/name endpoint");
-        List<User> user
-        return userRepository.findAllByName(name);
-    }*/
-
     @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> register(@RequestBody User user) {
         log.info("User received " + user);
@@ -59,14 +51,13 @@ public class UserController {
 
         Optional<User> optUser = userRepository.findUserByEmail(email);
 
-        if(optUser.isEmpty()) return new ResponseEntity<>("user does not exist", HttpStatus.BAD_REQUEST);
+        if (optUser.isEmpty()) return new ResponseEntity<>("user does not exist", HttpStatus.BAD_REQUEST);
 
         User savedUser = optUser.get();
 
         if (!encoder.matches(password, savedUser.getPassword()))
-            return new ResponseEntity<>("User "+savedUser.getEmail()+" not authorized", HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>("User " + savedUser.getEmail() + " not authorized", HttpStatus.UNAUTHORIZED);
 
-        log.info("User is present");
-        return new ResponseEntity<>("authorized", HttpStatus.OK);
+        return new ResponseEntity<>("authorized with UserId:" + savedUser.getId(), HttpStatus.OK);
     }
 }
