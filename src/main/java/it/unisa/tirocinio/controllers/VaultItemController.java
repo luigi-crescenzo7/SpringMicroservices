@@ -37,7 +37,7 @@ public class VaultItemController {
             return new ResponseEntity<>("Error mapping VaultItem object", HttpStatus.BAD_REQUEST);
         String uId = (String) session.getAttribute("user");
 
-        if(uId == null)
+        if (uId == null)
             return new ResponseEntity<>("user id not found in http session", HttpStatus.BAD_REQUEST);
 
         item.setOwnerId(uId);
@@ -50,13 +50,11 @@ public class VaultItemController {
     }
 
     @GetMapping(value = "/find-by-id")
-    public ResponseEntity<List<VaultItem>> itemsByOwnerId(HttpSession session) {
+    public String itemsByOwnerId(Model model, HttpSession session) {
         String userId = (String) session.getAttribute("user");
-        if (userId == null) {
-            log.info("User id not found in session object");
-            return new ResponseEntity<>(new ArrayList<>(), HttpStatus.BAD_REQUEST);
-        }
-        return new ResponseEntity<>(vaultItemService.findAllById(userId), HttpStatus.OK);
+        List<VaultItem> fetchedItems = vaultItemService.findAllById(userId);
+        model.addAttribute("items", fetchedItems);
+        return "show-items";
     }
 
     @GetMapping(value = "/vault-items")
