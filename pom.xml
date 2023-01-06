@@ -11,8 +11,8 @@
     <groupId>it.unisa.tirocinio</groupId>
     <artifactId>ui-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>TirocinioWebApp</name>
-    <description>WebApp Tirocinio</description>
+    <name>UiServiceApp</name>
+    <description>UiServiceApp</description>
     <properties>
         <java.version>17</java.version>
     </properties>
