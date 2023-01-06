@@ -14,7 +14,7 @@ class VaultItemReadConverter : Converter<Document, VaultItem> {
     override fun convert(source: Document): VaultItem {
         val item = VaultItem()
         return with(item) {
-            this.id = source.getString("_id")
+            this.id = source.getObjectId("_id").toString()
             this.itemName = source.getString("itemName")
             this.user.id = source.getObjectId("ownerId").toString()
             this.resourceURI = source.getString("resourceURI")
