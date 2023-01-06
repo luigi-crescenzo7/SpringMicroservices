@@ -51,7 +51,7 @@ class MainController(
 
         val savedItem = vaultItemRepository.insert(
             VaultItem(
-                ObjectId().toString(),
+                null,
                 item.idCardNumber,
                 item.resourceURI,
                 user,
