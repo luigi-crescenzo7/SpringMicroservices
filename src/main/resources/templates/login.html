@@ -2,18 +2,28 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Login page</title>
+    <style>
+        body {
+            text-align: center;
+        }
+        .login_container {
+            display: inline-block;
+        }
+    </style>
 </head>
 <body>
-<p th:text="${auth}"></p>
-<form method="post" th:action="@{/app/auth/login}">
-    <label title="email">
-        <input name="email" type="text">
-    </label>
-    <label title="password">
-        <input name="password" type="password">
-    </label>
-    <input type="submit" value="Submit">
-</form>
+<div class="login_container">
+    <p th:text="${auth}"></p>
+    <form method="post" th:action="@{/app/auth/login}">
+        <label title="email">
+            <input name="email" type="text">
+        </label>
+        <label title="password">
+            <input name="password" type="password">
+        </label>
+        <input type="submit" value="Submit">
+    </form>
+</div>
 </body>
 </html>
