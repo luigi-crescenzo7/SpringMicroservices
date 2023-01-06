@@ -9,13 +9,13 @@ import org.springframework.context.annotation.Bean;
 
 @EnableConfigurationProperties
 @SpringBootApplication
-public class TirocinioWebAppApplication {
+public class UiServiceWebApplication {
     @Bean
     public ObjectMapper mapper() {
         return new ObjectMapper().registerModule(new JavaTimeModule());
     }
     public static void main(String[] args) {
-        SpringApplication.run(TirocinioWebAppApplication.class, args);
+        SpringApplication.run(UiServiceWebApplication.class, args);
     }
 
 }
