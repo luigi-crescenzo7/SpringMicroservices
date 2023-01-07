@@ -7,6 +7,12 @@ import java.util.List;
 
 public interface VaultItemService {
     boolean saveItem(VaultItem item);
+
+    boolean updateItem(VaultItem item);
+
+    boolean deleteItem(VaultItem item);
+
     List<VaultItem> findAll();
+
     List<VaultItem> findAllById(String ownerId);
 }

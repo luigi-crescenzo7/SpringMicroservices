@@ -24,18 +24,34 @@ public class VaultItemServiceImpl implements VaultItemService {
     private final static String CREATE_URI = "/save-item";
     private final static String ALL_URI = "/items";
     private final static String FIND_BY_ID_URI = "/ownerId";
+    private final static String UPDATE_URI = "/update-item";
+    private final static String DELETE_URI = "/delete-item";
 
     @Override
     public boolean saveItem(VaultItem item) {
+        return createUpdateDelete(item, CREATE_URI);
+    }
+
+    @Override
+    public boolean updateItem(VaultItem item) {
+        return createUpdateDelete(item, UPDATE_URI);
+    }
+
+    private boolean createUpdateDelete(VaultItem item, String uri) {
         WebClient client = httpWebClient();
 
-        Optional<ResponseEntity<String>> optional = client.post().uri(CREATE_URI)
+        Optional<ResponseEntity<String>> optional = client.post().uri(uri)
                 .contentType(MediaType.APPLICATION_JSON).bodyValue(item)
                 .retrieve().onStatus(HttpStatusCode::isError, clientResponse ->
                         clientResponse.toEntity(String.class).map(CustomResponseException::new))
                 .toEntity(String.class).blockOptional();
 
         return optional.map(entity -> Objects.equals(entity.getBody(), "true")).orElseThrow();
+    }
+
+    @Override
+    public boolean deleteItem(VaultItem item) {
+        return createUpdateDelete(item, DELETE_URI);
     }
 
     @Override
