@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-
     <meta charset="UTF-8">
     <title>VaultItem</title>
 </head>
 <body>
 <!--/*@thymesVar id="VaultItem" type="it.unisa.tirocinio.beans.VaultItem"*/-->
-<form method="post" action="#" th:action="@{/app/vaultItem/save-vault-item}" th:object="${VaultItem}">
+<form method="post" action="#" th:action="@{/app/vault/{op}(op = ${operation})}" th:object="${VaultItem}">
+    <input type="hidden" th:field="*{id}">
     <label>
         <input type="text" th:field="*{itemName}">
     </label>
@@ -25,6 +25,5 @@
     </label>
     <input type="submit" value="Send">
 </form>
-
 </body>
 </html>
