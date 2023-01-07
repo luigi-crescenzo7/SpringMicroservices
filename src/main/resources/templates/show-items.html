@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Vault Items</title>
-    <style>
+	<meta charset="UTF-8">
+	<title>Vault Items</title>
+	<style>
         table, th, td {
             border: 2px solid black;
             border-collapse: collapse;
@@ -17,26 +17,53 @@
         td, th {
             padding: 10px;
         }
-    </style>
+	</style>
 </head>
 <body>
 <table>
-    <tr>
-        <th>Id</th>
-        <th>Name</th>
-        <th>Resource URI</th>
-        <th>Creation Date</th>
-        <th>Owner ID</th>
-        <th>ID Number</th>
-    </tr>
-    <tr th:each="item: ${items}">
-        <td th:text="${item.id}"></td>
-        <td th:text="${item.itemName}"></td>
-        <td th:text="${item.resourceURI}"></td>
-        <td th:text="${item.creationDate}"></td>
-        <td th:text="${item.ownerId}"></td>
-        <td th:text="${item.idCardNumber}"></td>
-    </tr>
+	<tr>
+		<th>Id</th>
+		<th>Name</th>
+		<th>Resource URI</th>
+		<th>Creation Date</th>
+		<th>Owner ID</th>
+		<th>ID Number</th>
+	</tr>
+	<tr th:each="item: ${items}">
+		<td onclick=" delete_item(this.textContent)" th:text="${item.id}"></td>
+		<td th:text="${item.itemName}"></td>
+		<td th:text="${item.resourceURI}"></td>
+		<td th:text="${item.creationDate}"></td>
+		<td th:text="${item.ownerId}"></td>
+		<td th:text="${item.idCardNumber}"></td>
+		<td>
+			<form method="post" action="#" th:action="@{/app/vault/modifyItem}">
+				<input type="hidden" name="id" th:value="${item.id}">
+				<input type="hidden" name="itemName" th:value="${item.itemName}">
+				<input type="hidden" name="resourceURI" th:value="${item.resourceURI}">
+				<input type="hidden" name="creationDate" th:value="${item.creationDate}">
+				<input type="hidden" name="idCardNumber" th:value="${item.idCardNumber}">
+				<input type="hidden" name="ownerId" th:value="${item.ownerId}">
+				<button id="submit-btn" type="submit" role="button">
+					Click
+					<input type="hidden" id="itemId" th:value="${item.id}">
+				</button>
+			</form>
+		</td>
+	</tr>
 </table>
+<script defer>
+    function delete_item(itemId) {
+        const fetchOptions = {
+            method: 'POST',
+            mode: 'cors',
+            headers: {'Content-Type': 'application/json'},
+            body: itemId
+        }
+        fetch("http://localhost:8080/app/vault/delete", fetchOptions)
+            .then(response => response.text())
+			.then(data => console.log(data))
+    }
+</script>
 </body>
 </html>
