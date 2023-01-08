@@ -5,6 +5,7 @@ import it.unisa.tirocinio.beans.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -15,25 +16,17 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
 import java.util.Optional;
-
-@Service
 @Slf4j
-// SpringBoot REST MongoDB Endpoint
+@Service
 public class UserServiceImpl implements UserService {
-
-
     @Value("${app.users-rest-url}")
     private String URL;
-    private final String ALL_URI = "/all";
-    private final String SAVE_URI = "/register";
-
-    private final String LOGIN_URI = "/login";
 
     @Override
     public List<User> findAll() {
-        log.info("Querying microservice endpoint...");
         final WebClient client = buildWebClient();
 
+        String ALL_URI = "/all";
         Optional<ResponseEntity<List<User>>> opt = client.get()
                 .uri(ALL_URI)
                 .retrieve().onStatus(HttpStatusCode::isError, clientResponse ->
@@ -45,9 +38,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean saveUser(User user) {
-        Optional<String> optResult;
+
         WebClient client = buildWebClient();
-        optResult = client.post().uri(SAVE_URI)
+        String SAVE_URI = "/register";
+
+        Optional<String> optResult = client.post().uri(SAVE_URI)
                 .bodyValue(user).retrieve().onStatus(HttpStatusCode::isError, clientResponse ->
                         clientResponse.toEntity(String.class).map(CustomResponseException::new))
                 .bodyToMono(String.class)
@@ -58,13 +53,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String login(String email, String password) {
-        log.info("Querying microservice endpoint...");
         WebClient client = buildWebClient();
 
         MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
         map.add("email", email);
         map.add("password", password);
 
+        String LOGIN_URI = "/login";
         Optional<ResponseEntity<String>> opt = client.post().uri(LOGIN_URI)
                 .body(BodyInserters.fromFormData(map))
                 .retrieve().onStatus(HttpStatusCode::isError, clientResponse ->
@@ -74,7 +69,7 @@ public class UserServiceImpl implements UserService {
         String result = opt.map(HttpEntity::getBody).orElse("");
 
         if (result.contains("not authorized"))
-            throw new RuntimeException("not authorized");
+            throw new CustomResponseException(new ResponseEntity<>("unauthorized", HttpStatus.UNAUTHORIZED));
 
         return result.substring(result.indexOf(":") + 1);
     }

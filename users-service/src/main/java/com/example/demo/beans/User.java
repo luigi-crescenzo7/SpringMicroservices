@@ -9,8 +9,8 @@ import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import java.time.LocalDate;
 
-@Document("User")
 @Data
+@Document("User")
 public class User {
 
     @MongoId
