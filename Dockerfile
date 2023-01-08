@@ -6,6 +6,6 @@ WORKDIR /app
 ##ENV FABRIC_REST_PORT=8447
 ##ENV VAULTITEMS_SERVICE_URL=http://localhost:8082/
 ##ENV VAULTITEMS_SERVICE_PORT=8082
-COPY target/TirocinioWebApp-0.0.1-SNAPSHOT.jar TirocinioApp.jar
+COPY target/ui-service-0.0.1-SNAPSHOT.jar ui-service.jar
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "TirocinioApp.jar"]
+ENTRYPOINT ["java", "-jar", "ui-service.jar"]
