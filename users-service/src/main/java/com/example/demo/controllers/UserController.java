@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @RestController
 @RequestMapping("/user-service")
-@Slf4j
 public class UserController {
 
     final UserRepository userRepository;
@@ -27,13 +27,11 @@ public class UserController {
 
     @GetMapping("/all")
     public ResponseEntity<List<User>> getUsers() {
-        log.info("/users/all endpoint");
         return new ResponseEntity<>(userRepository.findAll(), HttpStatus.OK);
     }
 
     @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> register(@RequestBody User user) {
-        log.info("User received " + user);
         user.setPassword(encoder.encode(user.getPassword()));
         User savedUser;
         try {
@@ -41,7 +39,6 @@ public class UserController {
         } catch (DuplicateKeyException e) {
             return new ResponseEntity<>("duplicate key email", HttpStatus.BAD_REQUEST);
         }
-        log.info("saved user: " + user);
         return new ResponseEntity<>("UserId:" + savedUser.getId(), HttpStatus.OK);
     }
 

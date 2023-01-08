@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @Controller
 @RequestMapping("/app/card")
-@Slf4j
 public class IdCardController {
 
     private final FabricService fabricService;
@@ -34,7 +34,6 @@ public class IdCardController {
 
     @GetMapping(value = "/assets")
     public String assets(Model model) {
-        log.info("/assets");
         List<IdCardItem> assets = fabricService.findAllAssets();
         model.addAttribute("assets", assets);
         return "assetsTemplate";
@@ -43,7 +42,7 @@ public class IdCardController {
     @GetMapping("/ownerId")
     public String assetsByOwnerId(Model model, HttpSession session) {
         String userId = (String) session.getAttribute("user");
-        if(userId == null ) {
+        if(userId == null) {
             throw new CustomResponseException(
                     new ResponseEntity<>("no user id found", HttpStatus.BAD_REQUEST));
         }
