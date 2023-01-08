@@ -1,29 +1,107 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>VaultItem</title>
+	<meta charset="UTF-8">
+	<title>Create Item</title>
+	<style>
+        .container {
+            padding-top: 140px;
+            display: grid;
+            align-content: center;
+        }
+
+        .labels_container {
+            grid-column: 1;
+            flex-direction: column;
+            align-content: flex-end;
+            align-items: flex-end;
+            padding-right: 40px;
+            row-gap: 9px;
+            display: flex;
+        }
+
+        .form_container {
+            grid-column: 2;
+            flex-direction: column;
+            align-content: center;
+            align-items: flex-start;
+            row-gap: 5px;
+            display: flex;
+        }
+
+        button {
+            margin-right: 5px;
+            margin-left: 5px;
+        }
+
+        .button-18 {
+            align-items: center;
+            background-color: #0A66C2;
+            border: 0;
+            border-radius: 100px;
+            box-sizing: border-box;
+            color: #ffffff;
+            cursor: pointer;
+            display: inline-flex;
+            font-family: -apple-system, system-ui, system-ui, "Segoe UI", Roboto, "Helvetica Neue", "Fira Sans", Ubuntu, Oxygen, "Oxygen Sans", Cantarell, "Droid Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Lucida Grande", Helvetica, Arial, sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            justify-content: center;
+            line-height: 20px;
+            max-width: 480px;
+            min-height: 40px;
+            min-width: 0;
+            overflow: hidden;
+            padding: 0 20px;
+            text-align: center;
+            touch-action: manipulation;
+            transition: background-color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s, box-shadow 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s, color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s;
+            user-select: none;
+            -webkit-user-select: none;
+            vertical-align: middle;
+        }
+
+        .button-18:hover,
+        .button-18:focus {
+            background-color: #16437E;
+            color: #ffffff;
+        }
+
+        .button-18:active {
+            background: #09223b;
+            color: rgb(255, 255, 255, .7);
+        }
+
+        .button-18:disabled {
+            cursor: not-allowed;
+            background: rgba(0, 0, 0, .08);
+            color: rgba(0, 0, 0, .3);
+        }
+
+	</style>
 </head>
 <body>
-<!--/*@thymesVar id="VaultItem" type="it.unisa.tirocinio.beans.VaultItem"*/-->
-<form method="post" action="#" th:action="@{/app/vault/{op}(op = ${operation})}" th:object="${VaultItem}">
-    <input type="hidden" th:field="*{id}">
-    <label>
-        <input type="text" th:field="*{itemName}">
-    </label>
-    <label>
-        <input type="text" th:field="*{resourceURI}">
-    </label>
-    <label>
-        <input type="text" th:field="*{idCardNumber}">
-    </label>
-    <label>
-        <input type="text" th:field="*{ownerId}">
-    </label>
-    <label>
-        <input type="date" th:field="*{creationDate}">
-    </label>
-    <input type="submit" value="Send">
-</form>
+<div class="container">
+    <div class="labels_container">
+        <span>Name</span>
+        <span>Resource URI</span>
+        <span>ID Card Number</span>
+    </div>
+	<!--/*@thymesVar id="VaultItem" type="it.unisa.tirocinio.beans.VaultItem"*/-->
+	<form class="form_container" method="post" action="#" th:action="@{/app/vault/{op}(op = ${operation})}" th:object="${VaultItem}">
+		<input type="hidden" th:field="*{id}">
+		<label>
+			<input type="text" th:field="*{itemName}">
+		</label>
+		<label>
+			<input type="text" th:field="*{resourceURI}">
+		</label>
+		<label>
+			<input type="text" th:field="*{idCardNumber}">
+		</label>
+		<input type="hidden" th:if="${operation.equals('update')}" th:field="*{ownerId}">
+        <button class="button-18" type="submit" role="button">Create</button>
+	</form>
+</div>
 </body>
 </html>

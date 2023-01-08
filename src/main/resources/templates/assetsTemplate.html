@@ -1,52 +1,114 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <style>
+	<meta charset="UTF-8">
+	<title>ID Cards</title>
+	<style>
+        .buttons_container {
+            margin-top: 100px;
+            margin-left: auto;
+            margin-right: auto;
+            display: flex;
+            justify-content: center;
+        }
+
         table, th, td {
             border: 2px solid black;
             border-collapse: collapse;
             alignment: center;
             margin-left: auto;
             margin-right: auto;
-            margin-top: 130px;
+            margin-top: 3px;
             text-align: center;
         }
 
         td, th {
             padding: 10px;
         }
-    </style>
+
+        button {
+            margin-right: 5px;
+            margin-left: 5px;
+        }
+
+        .button-18 {
+            align-items: center;
+            background-color: #0A66C2;
+            border: 0;
+            border-radius: 100px;
+            box-sizing: border-box;
+            color: #ffffff;
+            cursor: pointer;
+            display: inline-flex;
+            font-family: -apple-system, system-ui, system-ui, "Segoe UI", Roboto, "Helvetica Neue", "Fira Sans", Ubuntu, Oxygen, "Oxygen Sans", Cantarell, "Droid Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Lucida Grande", Helvetica, Arial, sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            justify-content: center;
+            line-height: 20px;
+            max-width: 480px;
+            min-height: 40px;
+            min-width: 0;
+            overflow: hidden;
+            padding: 0 20px;
+            text-align: center;
+            touch-action: manipulation;
+            transition: background-color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s, box-shadow 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s, color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s;
+            user-select: none;
+            -webkit-user-select: none;
+            vertical-align: middle;
+        }
+
+        .button-18:hover,
+        .button-18:focus {
+            background-color: #16437E;
+            color: #ffffff;
+        }
+
+        .button-18:active {
+            background: #09223b;
+            color: rgb(255, 255, 255, .7);
+        }
+
+        .button-18:disabled {
+            cursor: not-allowed;
+            background: rgba(0, 0, 0, .08);
+            color: rgba(0, 0, 0, .3);
+        }
+	</style>
 </head>
 <body>
+<div class="buttons_container">
+	<form th:if="${session.get('user') != null}" action="#" th:action="@{/app/card/idCardItem}">
+		<button class="button-18" th:if="${session.get('user') != null}">Create ID Card</button>
+	</form>
+</div>
 <table>
-    <tr>
-        <th>Id</th>
-        <th>Name</th>
-        <th>Surname</th>
-        <th>Sex</th>
-        <th>Fiscal Code</th>
-        <th>Nationality</th>
-        <th>Place of Birth</th>
-        <th>Date of Birth</th>
-        <th>Expiry Date</th>
-        <th>ID Number</th>
-        <th>Owner ID</th>
-    </tr>
-    <tr th:each="item: ${assets}">
-        <td th:text="${item.id}"></td>
-        <td th:text="${item.name}"></td>
-        <td th:text="${item.surname}"></td>
-        <td th:text="${item.sex}"></td>
-        <td th:text="${item.fiscalCode}"></td>
-        <td th:text="${item.nationality}"></td>
-        <td th:text="${item.placeOfBirth}"></td>
-        <td th:text="${item.dateOfBirth}"></td>
-        <td th:text="${item.expiryDate}"></td>
-        <td th:text="${item.cardNumber}"></td>
-        <td th:text="${item.ownerId}"></td>
-    </tr>
+	<tr>
+		<th>Id</th>
+		<th>Name</th>
+		<th>Surname</th>
+		<th>Sex</th>
+		<th>Fiscal Code</th>
+		<th>Nationality</th>
+		<th>Place of Birth</th>
+		<th>Date of Birth</th>
+		<th>Expiry Date</th>
+		<th>ID Number</th>
+		<th>Owner ID</th>
+	</tr>
+	<tr th:each="item: ${assets}">
+		<td th:text="${item.id}"></td>
+		<td th:text="${item.name}"></td>
+		<td th:text="${item.surname}"></td>
+		<td th:text="${item.sex}"></td>
+		<td th:text="${item.fiscalCode}"></td>
+		<td th:text="${item.nationality}"></td>
+		<td th:text="${item.placeOfBirth}"></td>
+		<td th:text="${item.dateOfBirth}"></td>
+		<td th:text="${item.expiryDate}"></td>
+		<td th:text="${item.cardNumber}"></td>
+		<td th:text="${item.ownerId}"></td>
+	</tr>
 </table>
 </body>
 </html>
