@@ -97,7 +97,7 @@
                 <artifactId>native-maven-plugin</artifactId>
                 <extensions>true</extensions>
                 <configuration>
-                    <imageName>users-native-image-test</imageName>
+                    <imageName>users-native-image</imageName>
                     <mainClass>com.example.demo.UsersApplication</mainClass>
                     <buildArgs>
                         <buildArg>--enable-http</buildArg>

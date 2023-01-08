@@ -74,11 +74,17 @@
     </dependencies>
 
     <build>
+        <sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
         <testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
         <plugins>
             <plugin>
                 <groupId>org.graalvm.buildtools</groupId>
                 <artifactId>native-maven-plugin</artifactId>
+                <extensions>true</extensions>
+                <configuration>
+                    <imageName>vaultitem-native-image</imageName>
+                    <mainClass>it.unisa.vaultservice.vaultitemservice.VaultItemServiceApplicationKt</mainClass>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -96,7 +102,6 @@
             <plugin>
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-maven-plugin</artifactId>
-                <version>${kotlin.version}</version>
                 <executions>
                     <execution>
                         <id>compile</id>
