@@ -81,6 +81,6 @@ public class VaultItemServiceImpl implements VaultItemService {
 
 
     private WebClient httpWebClient() {
-        return WebClient.builder().baseUrl(ENDPOINT + "kotlin").build();
+        return WebClient.builder().baseUrl(ENDPOINT + "vault").build();
     }
 }
