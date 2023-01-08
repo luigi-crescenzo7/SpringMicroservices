@@ -1,9 +1,9 @@
-package com.example.kotlinservice.controllers
+package it.unisa.vaultservice.vaultitemservice.controllers
 
-import com.example.kotlinservice.beans.User
-import com.example.kotlinservice.beans.VaultItemDTO
-import com.example.kotlinservice.beans.VaultItem
-import com.example.kotlinservice.repositories.VaultItemRepository
+import it.unisa.vaultservice.vaultitemservice.beans.User
+import it.unisa.vaultservice.vaultitemservice.beans.VaultItemDTO
+import it.unisa.vaultservice.vaultitemservice.beans.VaultItem
+import it.unisa.vaultservice.vaultitemservice.repositories.VaultItemRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import lombok.extern.slf4j.Slf4j
 import org.bson.types.ObjectId

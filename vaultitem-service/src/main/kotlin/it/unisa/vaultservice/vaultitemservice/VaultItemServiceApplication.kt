@@ -1,4 +1,4 @@
-package com.example.kotlinservice
+package it.unisa.vaultservice.vaultitemservice
 
 
 import com.fasterxml.jackson.databind.ObjectMapper

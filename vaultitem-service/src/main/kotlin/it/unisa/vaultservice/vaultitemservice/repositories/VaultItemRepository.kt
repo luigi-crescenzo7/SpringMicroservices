@@ -1,6 +1,6 @@
-package com.example.kotlinservice.repositories
+package it.unisa.vaultservice.vaultitemservice.repositories
 
-import com.example.kotlinservice.beans.VaultItem
+import it.unisa.vaultservice.vaultitemservice.beans.VaultItem
 import org.bson.types.ObjectId
 import org.springframework.data.mongodb.repository.MongoRepository
 import org.springframework.data.mongodb.repository.Query

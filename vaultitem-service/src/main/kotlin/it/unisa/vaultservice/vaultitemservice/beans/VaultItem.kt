@@ -1,4 +1,4 @@
-package com.example.kotlinservice.beans
+package it.unisa.vaultservice.vaultitemservice.beans
 
 import com.fasterxml.jackson.annotation.JsonFormat
 import com.fasterxml.jackson.annotation.JsonProperty

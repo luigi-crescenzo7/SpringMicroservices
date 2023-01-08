@@ -1,7 +1,7 @@
-package com.example.kotlinservice
+package it.unisa.vaultservice.vaultitemservice
 
 
-import com.example.kotlinservice.beans.VaultItem
+import it.unisa.vaultservice.vaultitemservice.beans.VaultItem
 import org.springframework.core.convert.converter.Converter
 import org.bson.Document
 import org.springframework.data.convert.ReadingConverter
