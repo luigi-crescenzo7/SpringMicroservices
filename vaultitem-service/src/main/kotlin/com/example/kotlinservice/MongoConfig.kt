@@ -8,10 +8,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.data.mongodb.MongoDatabaseFactory
 import org.springframework.data.mongodb.core.SimpleMongoClientDatabaseFactory
-import org.springframework.data.mongodb.core.convert.DefaultDbRefResolver
-import org.springframework.data.mongodb.core.convert.MappingMongoConverter
 import org.springframework.data.mongodb.core.convert.MongoCustomConversions
-import org.springframework.data.mongodb.core.mapping.MongoMappingContext
 
 
 
@@ -31,11 +28,6 @@ class MongoConfig {
         return MongoCustomConversions(listOf(VaultItemReadConverter()))
     }
 
-
-    fun configureConverters(converterConfigurationAdapter: MongoCustomConversions.MongoConverterConfigurationAdapter) {
-        //converterConfigurationAdapter.registerConverter(VaultItemWriteConverter())
-    }
-
     @Bean
     fun mongoDbFactory(): MongoDatabaseFactory {
         return SimpleMongoClientDatabaseFactory(mongoClient(), getDatabaseName())
@@ -44,9 +36,5 @@ class MongoConfig {
     @Bean
     fun getDatabaseName(): String {
         return "app-db"
-    }
-
-    fun mappingMongoConverter(): MappingMongoConverter {
-        return MappingMongoConverter(DefaultDbRefResolver(mongoDbFactory()), MongoMappingContext())
     }
 }

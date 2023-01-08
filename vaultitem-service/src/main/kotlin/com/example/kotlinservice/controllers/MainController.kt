@@ -3,7 +3,6 @@ package com.example.kotlinservice.controllers
 import com.example.kotlinservice.beans.User
 import com.example.kotlinservice.beans.VaultItemDTO
 import com.example.kotlinservice.beans.VaultItem
-import com.example.kotlinservice.repositories.UserRepository
 import com.example.kotlinservice.repositories.VaultItemRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import lombok.extern.slf4j.Slf4j
@@ -23,9 +22,8 @@ inline fun <reified T> getLogger(): Logger {
 
 @Slf4j
 @RestController
-@RequestMapping("/kotlin")
+@RequestMapping("/vault")
 class MainController(
-    private val repository: UserRepository,
     private val vaultItemRepository: VaultItemRepository,
     private val mapper: ObjectMapper
 ) {
@@ -37,13 +35,6 @@ class MainController(
         val items = vaultItemRepository.findAllByOwnerId(ObjectId(ownerId))
         return ResponseEntity(items, HttpStatus.OK)
     }
-
-    @GetMapping("/users")
-    fun users(): List<User> {
-        log.info("/users endpoint")
-        return repository.findAll()
-    }
-
 
     @PostMapping("/delete-item")
     fun delete(@RequestBody id: String): ResponseEntity<String> {
@@ -60,13 +51,13 @@ class MainController(
 
     @PostMapping("/update-item")
     fun update(@RequestBody item: VaultItemDTO): ResponseEntity<String> {
-        log.info(mapper.writeValueAsString(item))
-        val opt = vaultItemRepository.findById(ObjectId(item.id))
+        val objId = ObjectId(item.id)
+        val opt = vaultItemRepository.findById(objId)
 
         if(opt.isEmpty)
             return ResponseEntity<String>("item not found with id ${item.id}", HttpStatus.BAD_REQUEST)
 
-        val itemToUpdate = VaultItem(ObjectId(item.id),
+        val itemToUpdate = VaultItem(objId,
                                     item.idCardNumber,
                                     item.resourceURI,
                                     User(item.ownerId),
@@ -78,7 +69,6 @@ class MainController(
     }
     @PostMapping("/save-item")
     fun item(@RequestBody item: VaultItemDTO): ResponseEntity<String> {
-        log.info("item: $item")
         val user = User(item.ownerId)
 
         val savedItem = vaultItemRepository.save(
@@ -97,13 +87,11 @@ class MainController(
 
     @GetMapping("/items")
     fun items(): List<VaultItem> {
-        log.info("/items endpoint")
         return vaultItemRepository.findAll()
     }
 
     @GetMapping("/test")
     fun test(): ResponseEntity<String> {
-        log.info("/test endpoint")
         return ResponseEntity<String>("Hello\n", HttpStatus.OK)
     }
 }

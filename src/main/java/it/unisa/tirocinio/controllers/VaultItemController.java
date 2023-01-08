@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -49,16 +50,20 @@ public class VaultItemController {
     }
 
     @PostMapping("/update")
-    public ResponseEntity<String> update(@ModelAttribute VaultItem item, HttpSession session) {
+    public ModelAndView update(@ModelAttribute VaultItem item, HttpSession session) {
         String uId = (String) session.getAttribute("user");
 
         if (uId == null)
-            return new ResponseEntity<>("user id not found in http session", HttpStatus.BAD_REQUEST);
+            throw new CustomResponseException(
+                    new ResponseEntity<>("user id not found in http session", HttpStatus.BAD_REQUEST));
 
+        item.setCreationDate(LocalDate.now());
         boolean flag = vaultItemService.updateItem(item);
-        if (!flag) return new ResponseEntity<>("item not updated", HttpStatus.BAD_REQUEST);
+        if (!flag)
+            throw new CustomResponseException(
+                    new ResponseEntity<>("item not updated", HttpStatus.BAD_REQUEST));
 
-        return new ResponseEntity<>("item updated", HttpStatus.OK);
+        return itemsByOwnerId(null, session);
     }
 
     @PostMapping("/delete")
@@ -73,29 +78,34 @@ public class VaultItemController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<String> item(@ModelAttribute VaultItem item, HttpSession session) {
+    public ModelAndView item(@ModelAttribute VaultItem item, HttpSession session) {
         String uId = (String) session.getAttribute("user");
 
         if (uId == null)
-            return new ResponseEntity<>("user id not found in http session", HttpStatus.BAD_REQUEST);
+            throw new CustomResponseException(
+                    new ResponseEntity<>("user id not found in http session", HttpStatus.BAD_REQUEST));
 
         item.setOwnerId(uId);
+        LocalDate nowDate = LocalDate.now();
+        item.setCreationDate(nowDate);
 
         boolean flag = vaultItemService.saveItem(item);
-        if (!flag) return new ResponseEntity<>("item not saved", HttpStatus.BAD_REQUEST);
+        if (!flag)
+            throw new CustomResponseException(new ResponseEntity<>("", HttpStatus.BAD_REQUEST));
 
-        return new ResponseEntity<>("item saved", HttpStatus.OK);
+        return itemsByOwnerId(null, session);
     }
 
     @GetMapping(value = "/user-items")
-    public String itemsByOwnerId(Model model, HttpSession session) {
+    public ModelAndView itemsByOwnerId(Model model, HttpSession session) {
+        ModelAndView modelAndView = new ModelAndView("/show-items");
         String userId = (String) session.getAttribute("user");
         if (userId == null)
             throw new CustomResponseException(
                     new ResponseEntity<>("no user id found in session", HttpStatus.BAD_REQUEST));
         List<VaultItem> fetchedItems = vaultItemService.findAllById(userId);
-        model.addAttribute("items", fetchedItems);
-        return "show-items";
+        modelAndView.addObject("items", fetchedItems);
+        return modelAndView;
     }
 
     @GetMapping(value = "/all-items")
