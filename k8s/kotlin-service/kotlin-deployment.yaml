@@ -1,23 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: kotlin-app-deployment
+  name: vaultitem-service-deployment
   namespace: default
   labels:
-    app: kotlin-app
+    app: vaultitem-service
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: kotlin-app
+      app: vaultitem-service
   template:
     metadata:
       labels:
-        app: kotlin-app
+        app: vaultitem-service
     spec:
       containers:
-        - name: kotlin-app
-          #image: gigi7/kotlin-test-native:latest
+        - name: vaultitem-service-container
           image: vaultitem-app-image:latest
           imagePullPolicy: IfNotPresent
           ports:

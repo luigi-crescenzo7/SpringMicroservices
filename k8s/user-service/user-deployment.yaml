@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: users-app
+  name: users-service
   namespace: default
   labels:
-    app: users
+    app: users-service
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: users
+      app: users-service
   template:
     metadata:
       labels:
-        app: users
+        app: users-service
     spec:
       containers:
-        - name: users-container
+        - name: users-service-container
           image: users-service-image:latest
-          #image: gigi7/users-native-image:latest
+
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8081

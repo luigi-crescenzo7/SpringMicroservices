@@ -4,10 +4,10 @@ metadata:
   name: users-rest
   namespace: default
   labels:
-    app: users
+    app: users-service
 spec:
   selector:
-    app: users
+    app: users-service
   ports:
     -   port: 8081
         name: http

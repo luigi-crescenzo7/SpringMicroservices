@@ -4,10 +4,10 @@ metadata:
   name: kotlin-service
   namespace: default
   labels:
-    app: kotlin-app
+    app: vaultitem-service
 spec:
   selector:
-    app: kotlin-app
+    app: vaultitem-service
   ports:
     -   port: 8082
         name: http
