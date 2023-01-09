@@ -1,7 +1,7 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
-  name: test-gateway
+  name: app-ingress-gw
 spec:
   selector:
     istio: ingressgateway # use istio default controller
@@ -24,7 +24,7 @@ spec:
   hosts:
     - "test.com"
   gateways:
-    - test-gateway
+    - app-ingress-gw
   http:
     - match:
         - uri:
