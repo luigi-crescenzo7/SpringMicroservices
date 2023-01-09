@@ -43,19 +43,16 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public ModelAndView login(@RequestParam(name = "email") String email,
-                              @RequestParam(name = "password") String password,
-                              Model model, HttpSession session) {
+                              @RequestParam(name = "password") String password, HttpSession session) {
 
+        ModelAndView mav = new ModelAndView("show-items");
         String userId = userService.login(email, password);
         boolean flag = userId != null;
         if (flag) {
             session.setAttribute("user", userId);
-            model.addAttribute("auth", "true");
-        } else {
-            model.addAttribute("auth", "false");
         }
 
-        return vaultItemController.itemsByOwnerId(null, session);
+        return vaultItemController.itemsByOwnerId(mav,session);
     }
 
     @GetMapping(value = "/users")

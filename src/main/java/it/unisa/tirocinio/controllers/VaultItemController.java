@@ -52,6 +52,7 @@ public class VaultItemController {
     @PostMapping("/update")
     public ModelAndView update(@ModelAttribute VaultItem item, HttpSession session) {
         String uId = (String) session.getAttribute("user");
+        ModelAndView modelAndView = new ModelAndView("show-items");
 
         if (uId == null)
             throw new CustomResponseException(
@@ -63,7 +64,7 @@ public class VaultItemController {
             throw new CustomResponseException(
                     new ResponseEntity<>("item not updated", HttpStatus.BAD_REQUEST));
 
-        return itemsByOwnerId(null, session);
+        return itemsByOwnerId(modelAndView, session);
     }
 
     @PostMapping("/delete")
@@ -80,6 +81,7 @@ public class VaultItemController {
     @PostMapping("/save")
     public ModelAndView item(@ModelAttribute VaultItem item, HttpSession session) {
         String uId = (String) session.getAttribute("user");
+        ModelAndView modelAndView = new ModelAndView("show-items");
 
         if (uId == null)
             throw new CustomResponseException(
@@ -91,14 +93,13 @@ public class VaultItemController {
 
         boolean flag = vaultItemService.saveItem(item);
         if (!flag)
-            throw new CustomResponseException(new ResponseEntity<>("", HttpStatus.BAD_REQUEST));
+            throw new CustomResponseException(new ResponseEntity<>("item not saved", HttpStatus.BAD_REQUEST));
 
-        return itemsByOwnerId(null, session);
+        return itemsByOwnerId(modelAndView, session);
     }
 
     @GetMapping(value = "/user-items")
-    public ModelAndView itemsByOwnerId(Model model, HttpSession session) {
-        ModelAndView modelAndView = new ModelAndView("/show-items");
+    public ModelAndView itemsByOwnerId(ModelAndView modelAndView, HttpSession session) {
         String userId = (String) session.getAttribute("user");
         if (userId == null)
             throw new CustomResponseException(
