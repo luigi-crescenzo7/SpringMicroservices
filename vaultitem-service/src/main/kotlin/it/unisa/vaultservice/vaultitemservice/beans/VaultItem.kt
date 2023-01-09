@@ -9,7 +9,7 @@ import java.time.LocalDate
 
 
 @Document("VaultItem")
-@JsonSerialize(using = VaultItemSerializer::class)
+//@JsonSerialize(using = VaultItemSerializer::class)
 data class VaultItem(
     @MongoId
     @Field

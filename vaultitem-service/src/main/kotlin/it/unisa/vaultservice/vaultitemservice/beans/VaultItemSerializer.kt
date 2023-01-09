@@ -5,7 +5,8 @@ import com.fasterxml.jackson.databind.JsonSerializer
 import com.fasterxml.jackson.databind.SerializerProvider
 
 
-class VaultItemSerializer : JsonSerializer<VaultItem>() {
+class VaultItemSerializer() : JsonSerializer<VaultItem>() {
+
     override fun serialize(item: VaultItem?, jsonGenerator: JsonGenerator?, provider: SerializerProvider?) {
         jsonGenerator?.writeStartObject(item)
         jsonGenerator?.writeStringField("id", item?.id.toString())

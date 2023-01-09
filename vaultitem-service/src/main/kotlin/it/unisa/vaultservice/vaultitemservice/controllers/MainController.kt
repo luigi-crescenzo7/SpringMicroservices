@@ -31,9 +31,10 @@ class MainController(
     val log: Logger = getLogger<MainController>()
 
     @PostMapping("/ownerId")
-    fun fetch(@RequestBody ownerId: String): ResponseEntity<List<VaultItem>> {
+    fun fetch(@RequestBody ownerId: String): List<VaultItem> {
         val items = vaultItemRepository.findAllByOwnerId(ObjectId(ownerId))
-        return ResponseEntity(items, HttpStatus.OK)
+        println(mapper.writeValueAsString(items))
+        return items
     }
 
     @PostMapping("/delete-item")
