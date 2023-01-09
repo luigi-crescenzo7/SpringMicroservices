@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: tirocinio-web-app
+  name: ui-service-deployment
   namespace: default
   labels:
-    app: tirocinio
+    app: ui-service
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: tirocinio
+      app: ui-service
   template:
     metadata:
       labels:
-        app: tirocinio
+        app: ui-service
     spec:
       containers:
-        - name: tirocinio-container
-          image: tirocinio-web-app-image:latest
+        - name: ui-service-container
+          image: ui-service-image:latest
           imagePullPolicy: IfNotPresent
           env:
             - name: VAULTITEMS_SERVICE_URL

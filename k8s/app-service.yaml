@@ -4,10 +4,10 @@ metadata:
   name: app-service
   namespace: default
   labels:
-    app: tirocinio
+    app: ui-service
 spec:
   selector:
-    app: tirocinio
+    app: ui-service
   ports:
   -   port: 8080
       name: http
