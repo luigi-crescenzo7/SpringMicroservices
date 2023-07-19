@@ -15,6 +15,10 @@ spec:
       labels:
         app: ui-service
     spec:
+      hostAliases:
+        - ip: 192.168.67.1
+          hostnames:
+            - "host.minikube.internal"
       containers:
         - name: ui-service-container
           image: ui-service-image:latest
@@ -29,7 +33,7 @@ spec:
             - name: USERS_REST_PORT
               value: "8081"
             - name: FABRIC_REST_URL
-              value: "https://192.168.67.1:8447"
+              value: "https://host.minikube.internal:8447"
             - name: FABRIC_REST_PORT
               value: "8447"
           ports:
