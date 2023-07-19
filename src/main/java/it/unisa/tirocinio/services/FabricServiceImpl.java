@@ -28,9 +28,9 @@ public class FabricServiceImpl implements FabricService {
     private final ObjectMapper mapper;
     @Value("${app.fabric-rest-url}")
     private String FABRIC_ENDPOINT;
-    private static final String ALL_URI = "/api/contract/all";
-    private static final String SAVE_URI = "/api/contract/save";
-    private static final String ASSETS_BY_OWNER_ID = "/api/contract/ownerId";
+    private static final String ALL_URI = "/api/private/all";
+    private static final String SAVE_URI = "/api/private/save";
+    private static final String ASSETS_BY_OWNER_ID = "/api/private/ownerId";
     public FabricServiceImpl(final ObjectMapper beanMapper) {
         this.mapper = beanMapper;
     }
