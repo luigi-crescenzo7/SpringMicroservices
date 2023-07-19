@@ -9,7 +9,6 @@ import org.springframework.http.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -23,11 +22,6 @@ public class UserController {
     public UserController(final UserRepository userRepository, final PasswordEncoder encoder) {
         this.userRepository = userRepository;
         this.encoder = encoder;
-    }
-
-    @GetMapping("/all")
-    public ResponseEntity<List<User>> getUsers() {
-        return new ResponseEntity<>(userRepository.findAll(), HttpStatus.OK);
     }
 
     @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE)
