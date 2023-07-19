@@ -15,7 +15,6 @@
         table, th, td {
             border: 2px solid black;
             border-collapse: collapse;
-            alignment: center;
             margin-left: auto;
             margin-right: auto;
 			margin-top: 5px;
@@ -125,7 +124,10 @@
             headers: {'Content-Type': 'application/json'},
             body: itemId
         }
-        fetch("http://localhost:8080/app/vault/delete", fetchOptions)
+
+        const path = window.location.origin;
+
+        fetch(path + ":8080/app/vault/delete", fetchOptions)
             .then(response => response.text())
 			.then(data => console.log(data))
 
