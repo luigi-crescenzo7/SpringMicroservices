@@ -31,13 +31,13 @@ spec:
             prefix: "/vault"
       route:
         - destination:
-            host: kotlin-service
+            host: vault-service
     - match:
         - uri:
             prefix: "/user-service"
       route:
         - destination:
-            host: users-rest
+            host: user-service
     - match:
         - uri:
             prefix: "/"
