@@ -101,7 +101,7 @@
 		<td th:text="${item.ownerId}"></td>
 		<td th:text="${item.idCardNumber}"></td>
 		<td>
-			<form method="post" action="#" th:action="@{/app/vault/modifyItem}">
+			<form method="post" action="#" th:action="@{/app/vault/item-page}">
 				<input type="hidden" name="id" th:value="${item.id}">
 				<input type="hidden" name="itemName" th:value="${item.itemName}">
 				<input type="hidden" name="resourceURI" th:value="${item.resourceURI}">
