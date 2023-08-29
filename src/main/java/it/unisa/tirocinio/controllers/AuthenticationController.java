@@ -13,7 +13,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
 
 @Slf4j
 @Controller
@@ -52,11 +51,6 @@ public class AuthenticationController {
             session.setAttribute("user", userId);
         }
 
-        return vaultItemController.itemsByOwnerId(mav,session);
-    }
-
-    @GetMapping(value = "/users")
-    public ResponseEntity<List<User>> users() {
-        return new ResponseEntity<>(userService.findAll(), HttpStatus.OK);
+        return vaultItemController.itemsByOwnerId(mav, session);
     }
 }
