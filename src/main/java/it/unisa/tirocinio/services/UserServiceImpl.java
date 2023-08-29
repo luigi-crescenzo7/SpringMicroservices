@@ -14,27 +14,13 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import java.util.List;
 import java.util.Optional;
+
 @Slf4j
 @Service
 public class UserServiceImpl implements UserService {
-    @Value("${app.users-rest-url}")
-    private String URL;
-
-    @Override
-    public List<User> findAll() {
-        final WebClient client = buildWebClient();
-
-        String ALL_URI = "/all";
-        Optional<ResponseEntity<List<User>>> opt = client.get()
-                .uri(ALL_URI)
-                .retrieve().onStatus(HttpStatusCode::isError, clientResponse ->
-                        clientResponse.toEntity(String.class).map(CustomResponseException::new))
-                .toEntityList(User.class).blockOptional();
-
-        return opt.map(HttpEntity::getBody).orElseThrow();
-    }
+    @Value("${app.user-service-url}")
+    private String userServiceUrl;
 
     @Override
     public boolean saveUser(User user) {
@@ -74,8 +60,7 @@ public class UserServiceImpl implements UserService {
         return result.substring(result.indexOf(":") + 1);
     }
 
-
     private WebClient buildWebClient() {
-        return WebClient.builder().baseUrl(URL + "user-service").build();
+        return WebClient.builder().baseUrl(userServiceUrl + "user").build();
     }
 }

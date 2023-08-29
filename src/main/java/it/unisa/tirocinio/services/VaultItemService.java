@@ -12,7 +12,5 @@ public interface VaultItemService {
 
     boolean deleteItem(VaultItem item);
 
-    List<VaultItem> findAll();
-
     List<VaultItem> findAllById(String ownerId);
 }

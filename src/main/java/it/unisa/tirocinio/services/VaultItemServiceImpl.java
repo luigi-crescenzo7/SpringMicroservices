@@ -20,9 +20,8 @@ import java.util.Optional;
 @Slf4j
 public class VaultItemServiceImpl implements VaultItemService {
     @Value("${app.vaultitems-service-url}")
-    private String ENDPOINT;
+    private String valutItemServiceUrl;
     private final static String CREATE_URI = "/save-item";
-    private final static String ALL_URI = "/items";
     private final static String FIND_BY_ID_URI = "/ownerId";
     private final static String UPDATE_URI = "/update-item";
     private final static String DELETE_URI = "/delete-item";
@@ -55,18 +54,6 @@ public class VaultItemServiceImpl implements VaultItemService {
     }
 
     @Override
-    public List<VaultItem> findAll() {
-        WebClient client = httpWebClient();
-
-        Optional<ResponseEntity<List<VaultItem>>> opt = client.get().uri(ALL_URI)
-                .retrieve().onStatus(HttpStatusCode::isError, clientResponse ->
-                        clientResponse.toEntity(String.class).map(CustomResponseException::new))
-                .toEntityList(VaultItem.class).blockOptional();
-
-        return opt.map(HttpEntity::getBody).orElseThrow();
-    }
-
-    @Override
     public List<VaultItem> findAllById(String ownerId) {
         WebClient client = httpWebClient();
 
@@ -81,6 +68,6 @@ public class VaultItemServiceImpl implements VaultItemService {
 
 
     private WebClient httpWebClient() {
-        return WebClient.builder().baseUrl(ENDPOINT + "vault").build();
+        return WebClient.builder().baseUrl(valutItemServiceUrl + "vault").build();
     }
 }

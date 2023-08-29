@@ -27,25 +27,12 @@ public class FabricServiceImpl implements FabricService {
 
     private final ObjectMapper mapper;
     @Value("${app.fabric-rest-url}")
-    private String FABRIC_ENDPOINT;
-    private static final String ALL_URI = "/api/private/all";
+    private String fabricRestServiceUrl;
     private static final String SAVE_URI = "/api/private/save";
     private static final String ASSETS_BY_OWNER_ID = "/api/private/ownerId";
+
     public FabricServiceImpl(final ObjectMapper beanMapper) {
         this.mapper = beanMapper;
-    }
-
-    @Override
-    public List<IdCardItem> findAllAssets() {
-        log.info("Querying fabric service...");
-
-        WebClient client = httpsWebClient();
-        Optional<ResponseEntity<List<IdCardItem>>> opt = client.get()
-                .uri(ALL_URI).retrieve().onStatus(HttpStatusCode::isError, clientResponse ->
-                        clientResponse.toEntity(String.class).map(CustomResponseException::new))
-                .toEntityList(IdCardItem.class).blockOptional();
-
-        return opt.map(HttpEntity::getBody).orElseThrow();
     }
 
     @Override
@@ -78,7 +65,7 @@ public class FabricServiceImpl implements FabricService {
     }
 
     private WebClient httpWebClient() {
-        return WebClient.builder().baseUrl(FABRIC_ENDPOINT).build();
+        return WebClient.builder().baseUrl(fabricRestServiceUrl).build();
     }
 
     private WebClient httpsWebClient() {
@@ -97,7 +84,7 @@ public class FabricServiceImpl implements FabricService {
 
         return WebClient.builder()
                 .clientConnector(new ReactorClientHttpConnector(httpClient))
-                .baseUrl(FABRIC_ENDPOINT.contains("https") ? FABRIC_ENDPOINT : local).build();
+                .baseUrl(fabricRestServiceUrl.contains("https") ? fabricRestServiceUrl : local).build();
     }
 }
 
