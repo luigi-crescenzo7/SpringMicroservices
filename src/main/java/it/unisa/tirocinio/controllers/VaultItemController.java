@@ -13,9 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @Controller
@@ -34,22 +32,14 @@ public class VaultItemController {
         return "createVaultItemTemplate";
     }
 
-    @PostMapping("/modifyItem")
-    public String modify(@RequestParam Map<String, String> parameters, Model model) {
-        parameters.forEach((key, value) -> log.info(key + "  " + value));
-        VaultItem item = new VaultItem(parameters.get("id"),
-                parameters.get("idCardNumber"),
-                parameters.get("resourceURI"),
-                parameters.get("ownerId"),
-                parameters.get("itemName"),
-                LocalDate.parse(parameters.get("creationDate"), DateTimeFormatter.ISO_LOCAL_DATE));
-
+    @PostMapping("/item-page")
+    public String modify(@ModelAttribute VaultItem item, Model model) {
         model.addAttribute("VaultItem", item);
-        model.addAttribute("operation", "update");
+        model.addAttribute("operation", "updateItem");
         return "createVaultItemTemplate";
     }
 
-    @PostMapping("/update")
+    @PostMapping("/updateItem")
     public ModelAndView update(@ModelAttribute VaultItem item, HttpSession session) {
         String uId = (String) session.getAttribute("user");
         ModelAndView modelAndView = new ModelAndView("show-items");
@@ -59,7 +49,10 @@ public class VaultItemController {
                     new ResponseEntity<>("user id not found in http session", HttpStatus.BAD_REQUEST));
 
         item.setCreationDate(LocalDate.now());
+        item.setOwnerId(uId);
+
         boolean flag = vaultItemService.updateItem(item);
+
         if (!flag)
             throw new CustomResponseException(
                     new ResponseEntity<>("item not updated", HttpStatus.BAD_REQUEST));
@@ -107,12 +100,5 @@ public class VaultItemController {
         List<VaultItem> fetchedItems = vaultItemService.findAllById(userId);
         modelAndView.addObject("items", fetchedItems);
         return modelAndView;
-    }
-
-    @GetMapping(value = "/all-items")
-    public String items(Model model) {
-        List<VaultItem> items = vaultItemService.findAll();
-        model.addAttribute("items", items);
-        return "show-items";
     }
 }
