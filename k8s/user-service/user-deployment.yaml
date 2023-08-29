@@ -1,24 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: users-service
+  name: user-service
   namespace: default
   labels:
-    app: users-service
+    app: user-service
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: users-service
+      app: user-service
   template:
     metadata:
       labels:
-        app: users-service
+        app: user-service
     spec:
       containers:
-        - name: users-service-container
-          image: users-service-image:latest
-
+        - name: user-service-container
+          image: users-service-image-test:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8081
