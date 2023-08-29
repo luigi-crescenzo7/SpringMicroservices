@@ -12,8 +12,8 @@ import org.springframework.stereotype.Component;
 public class AppProperties {
     String vaultItemsServiceUrl;
     String vaultItemsServicePort;
-    String usersRestUrl;
-    String usersRestPort;
+    String usersServiceUrl;
+    String usersServicePort;
 
     String fabricRestUrl;
     String fabricRestPort;
