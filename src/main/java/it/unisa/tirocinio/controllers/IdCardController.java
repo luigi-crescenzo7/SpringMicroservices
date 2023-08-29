@@ -32,17 +32,10 @@ public class IdCardController {
         return "createCardTemplate";
     }
 
-    @GetMapping(value = "/assets")
-    public String assets(Model model) {
-        List<IdCardItem> assets = fabricService.findAllAssets();
-        model.addAttribute("assets", assets);
-        return "assetsTemplate";
-    }
-
     @GetMapping("/ownerId")
     public String assetsByOwnerId(Model model, HttpSession session) {
         String userId = (String) session.getAttribute("user");
-        if(userId == null) {
+        if (userId == null) {
             throw new CustomResponseException(
                     new ResponseEntity<>("no user id found", HttpStatus.BAD_REQUEST));
         }
@@ -54,7 +47,7 @@ public class IdCardController {
     @PostMapping(value = "/save-card-item")
     public ResponseEntity<String> card(@ModelAttribute IdCardItem item, HttpSession session) {
         String userId = (String) session.getAttribute("user");
-        if(userId == null ) {
+        if (userId == null) {
             throw new CustomResponseException(
                     new ResponseEntity<>("no user id found", HttpStatus.BAD_REQUEST));
         }
@@ -63,6 +56,6 @@ public class IdCardController {
         if (result == null)
             return new ResponseEntity<>("Error saving item", HttpStatus.BAD_REQUEST);
 
-        return new ResponseEntity<>("Saved item: "+result.getId(), HttpStatus.OK);
+        return new ResponseEntity<>("Saved item: " + result.getId(), HttpStatus.OK);
     }
 }
