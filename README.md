@@ -10,3 +10,7 @@ The 3 components are:
 
 The Main UI Service and Users Service images inside the local Kubernetes cluster contain the respective JAR applications, along with the Oracle JDK.
 While the Vault Item Service image contains a native executable of a Spring Boot application developed with Kotlin.
+
+
+# Architecture of the service mesh
+![Mesh Architecture](app_istio_arch.png)
