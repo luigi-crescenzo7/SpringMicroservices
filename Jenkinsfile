@@ -21,11 +21,9 @@ pipeline {
 			steps {
 				echo 'Listing current workspace files...'
 				sh 'ls -al'
-				sh 'printenv'
-				sh 'echo $JAVA_HOME'
-				sh 'echo $PATH'
+				sh 'Using Java: $JAVA_HOME'
 				echo 'Preparing build...'
-				sh 'mvn clean compile .'
+				sh 'mvn clean compile'
             }
         }
 
