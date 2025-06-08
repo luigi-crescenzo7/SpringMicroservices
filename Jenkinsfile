@@ -17,7 +17,7 @@ pipeline {
 			steps {
 				sh 'ls -al'
 				echo 'Preparing build...'
-				mvn 'clean compile .'
+				sh 'mvn clean compile .'
             }
         }
 
