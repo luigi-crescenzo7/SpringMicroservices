@@ -4,7 +4,8 @@ import it.unisa.tirocinio.beans.VaultItem;
 import it.unisa.tirocinio.services.CustomResponseException;
 import it.unisa.tirocinio.services.VaultItemService;
 import jakarta.servlet.http.HttpSession;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -15,10 +16,11 @@ import org.springframework.web.servlet.ModelAndView;
 import java.time.LocalDate;
 import java.util.List;
 
-@Slf4j
 @Controller
 @RequestMapping("/app/vault")
 public class VaultItemController {
+    private final Logger logger = LoggerFactory.getLogger(VaultItemController.class);
+
     private final VaultItemService vaultItemService;
 
     public VaultItemController(final VaultItemService service) {

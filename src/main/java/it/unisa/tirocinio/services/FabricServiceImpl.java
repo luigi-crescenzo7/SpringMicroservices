@@ -8,9 +8,13 @@ import io.netty.handler.ssl.SslContextBuilder;
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 import io.netty.resolver.DefaultAddressResolverGroup;
 import it.unisa.tirocinio.beans.IdCardItem;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -22,9 +26,9 @@ import java.util.Optional;
 
 
 @Service
-@Slf4j
 public class FabricServiceImpl implements FabricService {
 
+    private final Logger logger = LoggerFactory.getLogger(FabricServiceImpl.class);
     private final ObjectMapper mapper;
     @Value("${app.fabric-rest-url}")
     private String fabricRestServiceUrl;
@@ -37,7 +41,7 @@ public class FabricServiceImpl implements FabricService {
 
     @Override
     public List<IdCardItem> findAssetsByOwnerId(String ownerId) {
-        log.info("find assets by owner id");
+        logger.info("find assets by owner id");
         JsonNode node = mapper.createObjectNode().put("ownerId", ownerId);
 
         WebClient client = httpsWebClient();

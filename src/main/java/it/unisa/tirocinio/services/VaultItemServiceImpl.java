@@ -2,7 +2,8 @@ package it.unisa.tirocinio.services;
 
 
 import it.unisa.tirocinio.beans.VaultItem;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatusCode;
@@ -11,14 +12,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
-
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
 @Service
-@Slf4j
 public class VaultItemServiceImpl implements VaultItemService {
+
+    private final Logger logger = LoggerFactory.getLogger(VaultItemServiceImpl.class);
     @Value("${app.vaultitems-service-url}")
     private String valutItemServiceUrl;
     private final static String CREATE_URI = "/save-item";

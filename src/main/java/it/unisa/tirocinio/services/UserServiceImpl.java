@@ -2,7 +2,6 @@ package it.unisa.tirocinio.services;
 
 
 import it.unisa.tirocinio.beans.User;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -16,7 +15,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Optional;
 
-@Slf4j
 @Service
 public class UserServiceImpl implements UserService {
     @Value("${app.user-service-url}")
