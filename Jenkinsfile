@@ -1,14 +1,9 @@
 pipeline {
 	agent any
 
-    environment {
-		// Define environment variables
-        NODE_VERSION = '18'
-    }
-
     tools {
-		maven 'Maven-3.9.10' // Name configured in Jenkins Global Tool Configuration
-        jdk 'JDK-21'        // Java version
+		maven 'maven-3.9.10' // Name configured in Jenkins Global Tool Configuration
+        jdk 'jdk-21'        // Java version
     }
 
     stages {
