@@ -6,6 +6,10 @@ pipeline {
         jdk 'jdk-21'        // Java version
     }
 
+    environment {
+		JAVA_HOME='/usr/bin/java'
+	}
+
     stages {
 		stage('Checkout') {
 			steps {
@@ -15,8 +19,8 @@ pipeline {
 
         stage('Build App') {
 			steps {
+				echo 'Listing current workspace files...'
 				sh 'ls -al'
-				sh 'export JAVA_HOME=/usr/bin/java'
 				echo 'Preparing build...'
 				sh 'mvn clean compile .'
             }
