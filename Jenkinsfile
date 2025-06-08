@@ -13,9 +13,11 @@ pipeline {
             }
         }
 
-        stage('Install Dependencies') {
+        stage('Build App') {
 			steps {
 				sh 'ls -al'
+				echo 'Preparing build...'
+				sh 'maven clean compile .'
             }
         }
 
