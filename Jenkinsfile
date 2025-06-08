@@ -23,7 +23,7 @@ pipeline {
 				sh 'ls -al'
 				sh '''echo 'Using Java: $JAVA_HOME' '''
 				echo 'Preparing build...'
-				sh 'mvn clean compile'
+				sh 'mvn clean compile -Dmaven.compiler.compilerArgs="-proc:none"'
             }
         }
 
