@@ -21,6 +21,7 @@ pipeline {
 			steps {
 				echo 'Listing current workspace files...'
 				sh 'ls -al'
+				sh 'printenv'
 				sh 'echo $JAVA_HOME'
 				sh 'echo $PATH'
 				echo 'Preparing build...'
