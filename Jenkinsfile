@@ -7,7 +7,7 @@ pipeline {
     }
 
     environment {
-		JAVA_HOME='/usr/bin/java'
+		JAVA_HOME = '/usr/bin/java'
 	}
 
     stages {
@@ -21,6 +21,7 @@ pipeline {
 			steps {
 				echo 'Listing current workspace files...'
 				sh 'ls -al'
+				echo 'java $JAVA_HOME'
 				echo 'Preparing build...'
 				sh 'mvn clean compile .'
             }
