@@ -6,6 +6,11 @@ pipeline {
         NODE_VERSION = '18'
     }
 
+    tools {
+		maven 'Maven-3.9.0' // Name configured in Jenkins Global Tool Configuration
+        jdk 'JDK-21'        // Java version
+    }
+
     stages {
 		stage('Checkout') {
 			steps {
